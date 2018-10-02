@@ -1,5 +1,5 @@
 # Continuum_Random_Tree
-ACHTUNG! ----Every content in this repository is written in italian.----   
+ACHTUNG! ----Every content in this repository is written in italian----   
 
 This repository contains my B.S. thesis on Aldous' Continuum Random Tree.
 
