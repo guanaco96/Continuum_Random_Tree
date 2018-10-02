@@ -1,0 +1,1387 @@
+\documentclass[11pt, twoside]{report}
+\usepackage[a4paper,width=150mm,top=25mm,bottom=30mm]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\headheight}{20pt}
+\setlength\parindent{0pt}
+\fancyhead{}
+\fancyhead[LO,RE]{\thepage}
+\fancyhead[LE]{\leftmark}
+\fancyhead[RO]{\rightmark}
+\fancyfoot{}
+\usepackage{frontespizio}
+
+%pacchetti tipografia
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc} 
+\usepackage[italian]{babel} 
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{verbatim}
+
+%per la numerazione pagine 
+\makeatletter
+
+\newcommand\frontmatter{%
+    \cleardoublepage
+  %\@mainmatterfalse
+  \pagenumbering{roman}}
+
+\newcommand\mainmatter{%
+    \cleardoublepage
+ % \@mainmattertrue
+  \pagenumbering{arabic}}
+
+\makeatother
+
+%pacchetti scrittura
+\usepackage{dsfont} 
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+%roba tikz
+\usepackage{marginnote}
+\usepackage{scalerel} % to rescale the paraproduct symbols
+%%%
+%% copied from here
+\usepackage{tikz}
+
+
+
+\colorlet{symbols}{black}
+\colorlet{testcolor}{green!60!black}
+
+
+\def\symbol#1{\textcolor{symbols}{#1}}
+\def\1{\mathbf{{1}}}
+\def\X{\symbol{X}}
+\def\Wick#1{\,\colon\!\! \phantom{1} #1 \phantom{1} \!\colon}
+
+
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{shapes.symbols}
+%\usetikzlibrary{snakes}
+\usetikzlibrary{decorations}
+
+
+\def\drawx{\draw[-,solid] (-3pt,-3pt) -- (3pt,3pt);\draw[-,solid] (-3pt,3pt) -- (3pt,-3pt);}
+\tikzset{
+	root/.style={circle,fill=gray,inner sep=0pt, minimum size=2mm},
+	dot/.style={circle,fill=black,inner sep=0pt, minimum size=1mm},
+	var/.style={circle,fill=black!10,draw=black,inner sep=0pt, minimum size=2mm},
+	circ/.style={circle,fill=white,draw=black,inner sep=0pt, minimum size=1.2mm},
+	dotred/.style={circle,fill=black!50,inner sep=0pt, minimum size=2mm},
+	generic/.style={semithick,shorten >=1pt,shorten <=1pt},
+	gepsilon/.style={semithick,shorten >=1pt,shorten <=1pt,densely dashed},
+	dist/.style={ultra thick,draw=testcolor,shorten >=1pt,shorten <=1pt},
+	testfcn/.style={ultra thick,testcolor,shorten >=1pt,shorten <=1pt,<-},
+	testfcnx/.style={ultra thick,testcolor,shorten >=1pt,shorten <=1pt,<-,
+		postaction={decorate,decoration={markings,mark=at position 0.6 with {\drawx}}}},
+	kprime/.style={semithick,shorten >=1pt,shorten <=1pt,dotted,->},
+	kprimex/.style={semithick,shorten >=1pt,shorten <=1pt,densely dashed,->,
+		postaction={decorate,decoration={markings,mark=at position 0.4 with {\drawx}}}},
+	kernel/.style={semithick,shorten >=1pt,shorten <=1pt,->},
+	multx/.style={shorten >=1pt,shorten <=1pt,
+		postaction={decorate,decoration={markings,mark=at position 0.5 with {\drawx}}}},
+	kernelx/.style={semithick,shorten >=1pt,shorten <=1pt,->,
+		postaction={decorate,decoration={markings,mark=at position 0.4 with {\drawx}}}},
+	kepsilon/.style={semithick,shorten >=1pt,shorten <=1pt,densely dashed,->},
+	kernel1/.style={->,semithick,shorten >=1pt,shorten <=1pt,postaction={decorate,decoration={markings,mark=at position 0.45 with {\draw[-] (0,-0.1) -- (0,0.1);}}}},
+	kernel2/.style={->,semithick,shorten >=1pt,shorten <=1pt,postaction={decorate,decoration={markings,mark=at position 0.45 with {\draw[-] (0.05,-0.1) -- (0.05,0.1);\draw[-] (-0.05,-0.1) -- (-0.05,0.1);}}}},
+	kernelBig/.style={semithick,shorten >=1pt,shorten <=1pt,decorate, decoration={zigzag,amplitude=1.5pt,segment length = 3pt,pre length=2pt,post length=2pt}},
+	rho/.style={dotted,semithick,shorten >=1pt,shorten <=1pt},
+	renorm/.style={shape=circle,fill=white,inner sep=1pt},
+	labl/.style={shape=rectangle,fill=white,inner sep=1pt},
+	xi/.style={circle,fill=symbols!10,draw=symbols,inner sep=0pt,minimum size=1.2mm},
+	xix/.style={crosscircle,fill=symbols!10,draw=symbols,inner sep=0pt,minimum size=1.2mm},
+	xib/.style={circle,fill=symbols!10,draw=symbols,inner sep=0pt,minimum size=1.6mm},
+	xibx/.style={crosscircle,fill=symbols!10,draw=symbols,inner sep=0pt,minimum size=1.6mm},
+	not/.style={circle,fill=symbols,draw=symbols,inner sep=0pt,minimum size=0.5mm},
+	>=stealth,
+	}
+
+\makeatletter
+\def\DeclareSymbol#1#2#3{\expandafter\gdef\csname MH@symb@#1\endcsname{\tikz[baseline=#2,scale=0.15,draw=symbols]{#3}}\expandafter\gdef\csname MH@symb@#1s\endcsname{\scalebox{0.7}{\tikz[baseline=#2,scale=0.15,draw=symbols]{#3}}}}
+\def\<#1>{\csname MH@symb@#1\endcsname}
+\makeatother
+
+
+\newcommand{\pe}{\mathbin{\scaleobj{0.45}{\tikz \draw (0,0) node[shape=circle,draw,inner sep=0pt,minimum size=14.5pt] {\footnotesize $=$};}}}
+\newcommand{\pne}{\mathbin{\scaleobj{0.45}{\tikz \draw (0,0) node[shape=circle,draw,inner sep=0pt,minimum size=14.5pt] {\footnotesize $\neq$};}}}
+\newcommand{\pl}{\mathbin{\scaleobj{0.45}{\tikz \draw (0,0) node[shape=circle,draw,inner sep=0pt,minimum size=14.5pt] {\footnotesize $<$};}}}
+\newcommand{\pg}{\mathbin{\scaleobj{0.45}{\tikz \draw (0,0) node[shape=circle,draw,inner sep=0pt,minimum size=14.5pt] {\footnotesize $>$};}}}
+\newcommand{\ple}{\mathbin{\scaleobj{0.45}{\tikz \draw (0,0) node[shape=circle,draw,inner sep=0pt,minimum size=14.5pt] {\footnotesize $\leq$};}}}
+\newcommand{\pge}{\mathbin{\scaleobj{0.45}{\tikz \draw (0,0) node[shape=circle,draw,inner sep=0pt,minimum size=14.5pt] {\footnotesize $\geq$};}}}
+
+\DeclareSymbol{1}{0}{\draw[white] (-.4,0) -- (.4,0); \draw (0,0)  -- (0,1.2) node[dot] {};}
+\DeclareSymbol{2}{0}{\draw (-0.5,1.2) node[dot] {} -- (0,0) -- (0.5,1.2) node[dot] {};}
+\DeclareSymbol{3}{0}{\draw (0,0) -- (0,1.2) node[dot] {}; \draw (-.7,1) node[dot] {} -- (0,0) -- (.7,1) node[dot] {};}
+\DeclareSymbol{30}{-3}{\draw (0,0) -- (0,-1); \draw (0,0) -- (0,1.2) node[dot] {}; \draw (-.7,1) node[dot] {} -- (0,0) -- (.7,1) node[dot] {};}
+\DeclareSymbol{31}{-3}{\draw (0,0) -- (0,-1) -- (1,0) node[dot] {}; \draw (0,0) -- (0,1.2) node[dot] {}; \draw (-.7,1) node[dot] {} -- (0,0) -- (.7,1) node[dot] {};}
+\DeclareSymbol{32}{-3}{\draw (0,0) -- (0,-1) -- (1,0) node[dot] {}; \draw (0,0) -- (0,-1) -- (-1,0) node[dot] {}; \draw (0,0) -- (0,1.2) node[dot] {}; \draw (-.7,1) node[dot] {} -- (0,0) -- (.7,1) node[dot] {};}
+\DeclareSymbol{20}{-3}{\draw (0,0) -- (0,-1);\draw (-.7,1) node[dot] {} -- (0,0) -- (.7,1) node[dot] {};}
+\DeclareSymbol{22}{-3}{\draw (0,0.3) -- (0,-1) -- (1,0) node[dot] {}; \draw (0,0.3) -- (0,-1) -- (-1,0) node[dot] {};\draw (-.7,1) node[dot] {} -- (0,0.3) -- (.7,1) node[dot] {};}
+\DeclareSymbol{31p}{-3}{\draw (0,0) -- (0,-1) -- (1,0) node[dot] {}; \draw (0,0) -- (0,1.2) node[dot] {}; \draw (-.7,1) node[dot] {} -- (0,0) -- (.7,1) node[dot] {}; \draw (0,-1) node{\scaleobj{0.5}{\pe}}; }
+\DeclareSymbol{32p}{-3}{\draw (0,0) -- (0,-1) -- (1,0) node[dot] {}; \draw (0,0) -- (0,-1) -- (-1,0) node[dot] {}; \draw (0,0) -- (0,1.2) node[dot] {}; \draw (-.7,1) node[dot] {} -- (0,0) -- (.7,1) node[dot] {}; \draw (0,-1) node{\scaleobj{0.5}{\pe}};}
+\DeclareSymbol{22p}{-3}{\draw (0,0.3) -- (0,-1) -- (1,0) node[dot] {}; \draw (0,0.3) -- (0,-1) -- (-1,0) node[dot] {};\draw (-.7,1) node[dot] {} -- (0,0.3) -- (.7,1) node[dot] {}; \draw (0,-1) node{\scaleobj{0.5}{\pe}};}
+
+%Modifiche comode 
+\renewcommand{\phi}{\varphi}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\al}{\alpha}
+\newcommand{\ls}{\lesssim}
+\newcommand{\Ll}{\left}
+%\newcommand{\Rr}{\right}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+
+% Mathbb
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\D}{\mathbf{D}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\N}{\mathbb{N}}
+\renewcommand{\P}{{\mathbb P}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\Z}{\mathbb{Z}}
+
+% Calligrafiche
+\newcommand{\Cc}{\mathcal{C}}
+\newcommand{\Ss}{\mathscr{S}}
+\newcommand{\Bb}{\mathcal{B}}
+\newcommand{\Ff}{\mathcal{F}}
+\newcommand{\Hh}{\mathcal{H}}
+\newcommand{\Rr}{\mathscr{R}}
+\newcommand{\Tt}{\mathscr{T}}
+
+\theoremstyle{definition}
+\newtheorem{definizione}{Definizione}[chapter]
+\theoremstyle{plain}
+\newtheorem{teo}{Teorema}[chapter]
+\newtheorem{lemma}[teo]{Lemma}
+\newtheorem{prop}[teo]{Proposizione}
+\theoremstyle{remark}
+\newtheorem{oss}{Osservazione}[chapter]
+\newtheorem{notazione}{Notazione}[chapter]
+\numberwithin{equation}{chapter}
+
+%%MIEI
+\usepackage{graphicx}
+\usepackage{commath}
+\usepackage{nicefrac}
+\usepackage{forest}
+\usetikzlibrary{decorations}
+\usetikzlibrary{calc, arrows}
+
+
+\begin{document}
+\pagenumbering{roman}
+
+\begin{frontespizio}
+\Universita{Pisa}
+\Facolta {Scienze Matematiche, Fisiche e Naturali}
+\Corso [di Laurea]{Matematica}
+\Annoaccademico {2017/2018}
+\Titoletto {Tesi di Laurea Triennale}
+\Logo[4cm]{logoUnipi}
+\Titolo {Il Continuum Random Tree}
+\Candidato {Lorenzo Beretta}
+\Relatore {Prof. Franco Flandoli}
+\Rientro {1.5 cm}
+\Margini{1 cm}{1.5 cm}{1 cm}{2 cm}
+\end{frontespizio}
+
+%MA STA PAGINA VUOTA? YO LA TOLGO, TANTO NON HO
+%I RINGRAZIAMENTI, QUINDI HO LA PARITA' GIUSTA...
+%\shipout\null\stepcounter{page}
+
+%IO I RINGRAZIAMENTI LI EVITEREI
+\begin{comment}
+
+\null\vspace{\stretch{1}}
+\begin{flushright}
+Grazie a tutta la mia famiglia per l'infinito\\ e ininterrotto sostegno datomi in questi anni.
+\end{flushright}
+\vspace{\stretch{4}}\null
+
+\end{comment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tableofcontents
+
+\chapter{Introduzione}
+\pagenumbering{arabic}
+Lo scopo di questa trattazione è di illustrare la costruzione dell'albero continuo aleatorio (CRT) svolta da Aldous nella triade di articoli \cite{Ald1},\cite{Ald2} e \cite{Ald3} per poi approfondire un importante risultato che questo strumento permette di formalizzare: la convergenza sotto opportune ipotesi degli alberi Galton-Watson al \textit{brownian continuum random tree}.\\
+\\
+Nella letteratura matematica votata alle applicazioni si trovano molti modelli di alberi aleatori per i quali sono state ampiamente studiate le distribuzioni asintotiche di alcuni parametri (altezza, profilo, distanza media tra i nodi, etc...) utilizzando strumenti combinatorici.
+Il continuum random tree sarà l'oggetto astratto che otterremo come limite di scala di certe famiglie di alberi aleatori, fornendoci un'altro strumento per studiare tali distribuzioni. In particolare vedremo che la sua versione browniana sarà il limite di un modello molto utilizzato di albero aleatorio: il Galton-Watson tree, ovvero l'albero genealogico.\\
+\\
+In questa tesi in primo luogo rivisiteremo un risultato classico della teoria della convergenza di processi: il principio di invarianza di Donsker, risultato che fa da precursore a quelli di Aldous e condivide con essi il metodo: dimostrare la convergenza di processi mostrando prima quella dei marginali finito-dimensionali per concludere sfruttando la \textit{tightness}.\\
+Costruiremo poi il continuum random tree come un oggetto astratto avente due diverse rappresentazioni: la prima attraverso i sottoalberi aleatori finiti ottenuti con un campionamento aleatorio dei suoi vertici e la seconda attraverso la corrispondenza biunivoca con particolari funzioni continue che costituiscono la naturale estensione della nozione di \textit{funzione contorno} per un albero, ovvero l'interpolazione lineare della funzione ottenuta dalla DFS (\textit{depth first search}).\\
+\\
+Il lavoro teorico per giungere a questa duplice caratterizzazione del CRT sarà poi ripagato dalla dimostrazione della convergenza delle funzioni contorno dei \textit{Galton-Watson trees} aventi distribuzione subcritica e varianza finita all'escursione browniana, risultato che ci permette di esprimere risultati asintotici sulle distribuzioni di funzioni della "forma" di questi alberi come funzionali dell'escursione browniana, oggetto ben noto in letteratura.
+
+
+\chapter{Il Teorema di Donsker}
+\section{Enunciato}
+Si consideri un punto, vincolato a muoversi sulle coordinate intere della retta reale, che ad ogni istante temporale intero avanza o retrocede di un'unità a seconda del risultato del lancio di una moneta. Si immagini di filmare il moto di questo punto e di accelerare il video e rimpicciolire l'immagine in modo che ogniqualvolta dimezziamo la dimensione dell'immagine quadruplichiamo la velocità del video (ovvero seguendo una legge parabolica).\\
+La distribuzione delle traiettorie che si vedono, nel limite all'infinito di questo procedimento, è data dalla \textit{misura di Wiener} ovvero la distribuzione del \textit{Moto Browniano}.\\
+\\
+In questo capitolo illustreremo una dimostrazione del Teorema di Donsker, il risultato che formalizza, generalizzandolo, quanto evocativamente raccontato sopra: la convergenza della passeggiata aleatoria al moto browniano. 
+
+\begin{definizione}Si definisce \textit{Moto Browniano} una v.a. $B$ definita su $(\Omega , \mathscr F, P)$ a valori in $(C [0,1], \mathscr C )$, con $\mathscr C$ $\sigma$-algebra di Borel indotta dalla norma uniforme, che goda delle seguenti propriet\'{a}:
+
+\begin{enumerate}
+\item $ \forall t \in (0,1] \quad P\{ B_t \leq \alpha\}= \frac{1}{ \sqrt{2 \pi t}}\int_{-\infty}^{\alpha}e^{\frac{-u^2}{2t}}du $.
+
+\item $ P \left\{ B_0 = 0 \right\}=1 $.
+
+\item $ B_{t_1}-B_{t_0}, ... , B_{t_k} - B_{t_{k-1}}$ indipendenti se $ 0 \leq t_0 \leq ... \leq t_k \leq 1$.
+
+\end{enumerate}
+Si dice \textit{misura di Wiener} e si denota con $W$ la misura su $(C[0,1], \mathscr C)$ definita da $P(B^{-1}(\,\cdot\,))$.
+\end{definizione}
+
+\begin{teo}{\textbf{(Donsker)}} \label{donsker} Data la successione di v.a.r $(\xi_i)_{i \in \mathbb N}$ i.i.d. con media $0$ e varianza $\sigma^2>0$ sia $S$ la passeggiata aleatoria definita da $ S_n= \xi_1 + \xi_2 + ... + \xi_n$ e sia
+\begin{equation}
+X_n(t,\omega)=\frac{1}{\sigma \sqrt{n}}S_{\lfloor nt \rfloor}(\omega)+\left(nt - \lfloor nt \rfloor \right) \frac{1}{\sigma \sqrt n}\xi_{ \lfloor nt \rfloor +1 }(\omega)
+\end{equation}
+la sua interpolazione lineare riscalata in tempo di un fattore $n$ e in spazio di un fattore $\frac{1}{\sigma \sqrt{n}}$, allora vale $X_n \xrightarrow{\mathscr{L}} B $.
+\end{teo}
+
+Per arrivare a dimostrare questo risultato dovremo prima provare che la successione $X_n$ sopra definita \'e relativamente compatta rispetto alla nozione di limite in legge, ovvero di convergenza debole delle leggi di probabilit\'a. Per fare questo utilizzeremo il terema di Prohorov, noto risultato di teoria della misura. Proveremo infine che il limite di ogni sottosuccessione deve avere distribuzione $W$ mostrando che ci\'o vale per distribuzioni finito-dimensionali e provando cos\'i l'unicit\'a (in distribuzione) del limite per la successione di partenza.
+
+\section{Risultati Preliminari}
+In questa sezione enunceremo alcuni teoremi ben noti in letteratura ed alcuni lemmi tecnici che ci serviranno per la dimostrazione del Teorema di Donsker.
+
+\begin{teo}{\textbf{(Ascoli-Arzel\'a)}} Consideriamo $C[0,1]$ con la norma uniforme, allora $K \subseteq C[0,1]$ è compatto se e solo se $K$ è chiuso e le funzioni in $K$ sono equiconinue ed equilimitate.
+\end{teo}
+
+\begin{definizione} Sia $(P_i)_{i \in I}$ una famiglia di probabilit\'a sulo spazio metrico $(S,\mathscr{S})$, essa si definisce \textit{tight} se $\forall \epsilon > 0 \ \ \exists K \subseteq S$ compatto t.c. $ \forall i \in I \ \ P_i (K)> 1- \epsilon $.
+\\Quando si parla di \textit{tightness} per famiglie di v.a. si intende che lo sono le loro leggi.
+\end{definizione}
+
+\begin{teo}{\textbf{(Prohorov)}} Data una famiglia $(P_i)_{i \in I}$ di probabilit\'a su $(S,\mathscr{S})$, spazio metrico separabile dotato della $\sigma -algebra$ di Borel, allora questa \'e $tight$ se e solo se \'e relativamente compatta rispetto alla convergenza debole\footnote{Ricordiamo che $P_n$ converge debolmente a $P$ se $\forall f:S \rightarrow $ continua e limitata $\int_{S}f \, dP_n \rightarrow \int_{S} f \,dP$.}.
+\end{teo}
+
+Grazie a questo teorema ci \'e sufficiente provare la $tightness$ della successione $(X_n)$, per fare questo ci serviremo di alcuni lemmi.
+
+\begin{lemma} \label{lem_1} La successione di probabilit\'a $\{P_n\}$ definite su $(C, \mathscr C)$ \'e tight se valgono le seguenti:
+\begin{enumerate}
+
+\item $\forall \eta >0 \ \exists a > 0$ t.c. $P_n\{x \ | \ \abs{x} >a\}\leq \eta$.
+
+\item $\forall \eta, \epsilon >0 \ \exists \delta$ con $ 0< \delta <1 $ t.c. $\forall t \in [0,1] \quad P_n\left\{x \  \Bigg|  \sup\limits_{t\leq s\leq t+\delta}|x(s)-x(t)|\geq \epsilon \right\} \leq \eta \delta$  definitivamente in $n$.
+
+\end{enumerate}
+Dove l'estremo superiore nel punto 2 \'e inteso essere preso su $s \in [t,1] $ se $t+\delta>1$.
+\end{lemma}
+
+\begin{proof}{} Sia 
+
+$$A_t=\left\{x \ \Bigg| \sup\limits_{t\leq s\leq t+\delta}|x(s)-x(t)| \geq \epsilon \right\}$$ 
+
+per $t \in [0,1]$, fissiamo $\delta$ che soddisfi la \textit{2}, ricopriamo ora $[0,1]$ con intervalli della forma $[i\delta, (i+1)\delta]$ per $0\leq i<\delta^{-1}$ intero, si ha che se $|s-t|<\delta$ allora $t$ ed $s$ appartengono allo stesso intervallo o ad intervalli adiacenti tra quelli del ricoprimento, dunque dalla disuguaglianza triangolare segue
+
+\begin{equation} \label{pr_ineq}
+P_n\{x \mid w_x(\delta)\geq 2\epsilon \} \leq P_n\left(\bigcup\limits_{i<\delta^{-1}}A_{i\delta}\right) \leq \sum\limits_{i<\delta ^{-1}} P_n(A_{i\delta})
+\end{equation}
+
+dove $w_x$ \'e il modulo di continuit\'a globale di $x \in C[0,1]$, ovvero $w_x(\delta)= \sup\limits_{|s-t|< \delta} |x(s) - x(t)|$. Dalla \textit{2} e dalla \eqref{pr_ineq} segue allora che
+\begin{equation}
+P_n\{x \mid w_x(\delta)\geq 2\epsilon \} \leq (1+ \lfloor \delta^{-1} \rfloor)\delta \eta \leq 2\eta.
+\end{equation}
+
+Abbiamo ottenuto che, a meno di riassorbire le costanti numeriche dentro i valori quantificati, si ha
+
+ $$ \forall \eta, \epsilon >0 \  \exists \delta \; con \;  0< \delta <1 \quad  P_n\{x \mid w_x(\delta)\geq \epsilon \} \leq \eta  \text{ definitivamente in } n. $$
+ 
+ Notiamo che quest'ultima formulazione assomiglia molto all'ipotesi di equicontinuit\'a di Ascoli-Arzelà.\\
+Per ogni $k \in \mathbb N$ sia $\delta_k$ t.c. $A_k:=\left\{ x \  \Big| w_x(\delta_k) \leq \frac{1}{k} \right\}, \; P_n(A_k) \geq 1- \frac{\eta}{2^{k+1}}\; \forall n \in \mathbb N$, tali $\delta_k$ esistono in quanto valendo la precedente definitivamente vale anche, a meno di rimpicciolire un numero finito di volte $\delta$, per ogni $ n \in \mathbb N$. \\
+Siano $A:=\{x \mid |x(0)| \leq a \}$ con $a$ dato dalla (1) t.c. $P_n (A)\geq 1- \frac{\eta}{2}$ e. \\
+A questo punto consideriamo la chiusura K di $ A \cap \bigcap\limits_{k \in \mathbb N} A_k $ , da Ascoli-Arzel\'a sappiamo che $K$ \'e compatto e dalle precedenti stime vale $\forall n \in \mathbb N \; P_n(K)\geq 1 - \eta$.
+\end{proof}
+
+
+\begin{lemma}\label{lem_2} Sia $(X_n)$ definita come nel Teorema \ref{donsker} allora $(X_n)$ \'e tight se 
+\begin{gather}
+\forall \eta, \epsilon >0 \ \exists \delta \text{ con }  0< \delta <1 \  \exists n_0 \in \mathbb N \text{ t.c. }  \forall n\geq n_0 \nonumber \\
+ \frac{1}{\delta}P\left\{\max\limits_{i \leq n \delta}\frac{1}{\sigma \sqrt n}|S_{k+i}-S_k|\geq \epsilon \right\} \leq \eta \ \forall k\leq n
+\end{gather}
+\end{lemma}
+
+\begin{proof}Siano $0\leq k, j \leq n $ interi t.c. $\frac{k}{n}\leq t \leq \frac{k+1}{n}, \  \frac{j-1}{n}\leq t+\delta \leq \frac{j}{n}$ allora dalla costruzione di $X_n$ si nota facilmente che vale 
+$$\sup\limits_{t\leq s\leq t+\delta} |X_n(s)-X_n(t)| \leq \max\limits_{0\leq i\leq j-k}\frac{1}{\sigma \sqrt n}|S_{k+i}-S_k|.$$ \\
+Scegliendo $n\geq \frac{2}{\delta}$ ottengo $j-k\leq \delta n +2\leq 2 \delta n$. \\
+$$\frac{1}{\delta}P\left\{\sup\limits_{t\leq s\leq t+\delta}|X_n(s)-X_n(t)|\geq \epsilon \right\} \leq \frac{1}{2 \delta}P\left\{\max\limits_{i \leq 2 \delta n}\frac{1}{\sigma \sqrt n}|S_{k+i}-S_k|\geq \epsilon \right\} \leq \eta $$
+Che a meno di rassorbire le costanti numeriche nei valori quantificati ci da la tesi attraverso il Lemma \ref{lem_1}.
+
+\end{proof}
+
+\begin{lemma} \label{lem_3} Sia $(X_n)$ definita come nel Teorema \ref{donsker} allora $(X_n)$ \'e tight se 
+\begin{gather}
+\forall \epsilon>0\  \exists \lambda>1 \ \exists n_1 \in \mathbb N \text{ t.c. }  \forall n\geq n_1  \nonumber \\
+P\left\{\max\limits_{i\leq n}|S_{k+i} -S_{k}|	\geq \lambda \sigma \sqrt n\right\} \leq \frac{\epsilon}{\lambda^2} \ \  \forall k\leq n \text{ fissato}.
+\end{gather}
+\end{lemma}
+\begin{proof}
+Nelle ipotesi del Lemma \ref{lem_2} $\epsilon$ pu\'o essere preso in $(0,1)$ senza perdita di generalit\'a, possiamo dunque sostituire $\epsilon$ con $\eta \epsilon^2$ nelle nostre attuali ipotesi e definire $\delta = \frac{\epsilon^2}{\lambda^2}$ e avendo $\lambda>1>\epsilon$ otteniamo $0<\delta <1$. \\
+Sia poi $n_0> \lfloor \frac{n_1}{\delta} \rfloor$ allora $\forall n \geq n_0 \ \lfloor n \delta \rfloor \geq n_0$, quindi possiamo rafforzare la stima in ipotesi con la seguente:
+
+$$P\left\{\max\limits_{i\leq \lfloor n \delta \rfloor}|S_{k+i} -S_{k}| \geq \lambda \sigma \sqrt {\lfloor n \delta \rfloor}\right\} \leq \frac{\eta \epsilon^2}{\lambda^2} \quad  \forall n \geq n_0 \ fissato.$$
+Notiamo che dalla definizione di $\delta$ segue che $\lambda \sqrt{\lfloor n \delta \rfloor}\leq \epsilon \sqrt n$ da cui 
+$$P\left\{\max\limits_{i\leq \lfloor n \delta \rfloor}|S_{k+i} -S_{k}| \geq \epsilon \sigma \sqrt n\right\} \leq P\left\{\max\limits_{i\leq \lfloor n \delta \rfloor}|S_{k+i} -S_{k}| \geq \lambda \sigma \sqrt {\lfloor n \delta \rfloor}\right\} \leq \eta \delta$$
+Che coincide con l'ipotesi del Lemma \ref{lem_2}.
+\end{proof}
+
+\begin{lemma} \label{lem_4} Siano $(\xi_i)_{i \in \mathbb N}$ e $S_n=\xi_1+ ... +\xi_n$ come nel Teorema \ref{donsker} allora vale
+\begin{equation} \label{lem_4_eq}
+P\left\{\max\limits_{i\leq n}|S_i| \geq \lambda \sigma \sqrt n\right\} \leq 2 P\left\{ |S_n| \geq (\lambda - \sqrt 2) \sigma \sqrt n \right\}
+\end{equation}
+\end{lemma}
+
+\begin{proof} Siano $E_i=\left\{\max\limits_{j< i} |S_j| < \lambda \sigma \sqrt n \leq|S_i| \right\}$, ovvero $E_i$ \'e l'evento ``la prima somma parziale a superare $\lambda \sigma \sqrt n$ è la $i-esima$'' e formano quindi una partizione dell'evento in LHS in \eqref{lem_4_eq}.
+\begin{equation}
+P\left\{\max\limits_{i\leq n}|S_i| \geq \lambda \sigma \sqrt n\right\} \leq  P\left\{ |S_n| \geq (\lambda - \sqrt 2) \sigma \sqrt n \right\} + \sum\limits_{i=1}^{n-1}P\left(E_i \cap \left\{ |S_n|<(\lambda - \sqrt 2) \sigma \sqrt n \right\}\right) \nonumber
+\end{equation}
+Osservando che $|S_i|\geq \lambda \sigma \sqrt n$ e $|S_n|<(\lambda - \sqrt 2) \sigma \sqrt n \implies |S_n - S_i| \geq \sqrt{2 n} \sigma $ e applicando la disuguaglianza di Chebyshev's si ottiene:
+\begin{gather}
+\sum\limits_{i=1}^{n-1}P\left(E_i \cap \left\{ |S_n|<(\lambda - \sqrt 2) \sigma \sqrt n \right\}\right) \leq \sum\limits_{i=1}^{n-1}P(E_i) P\left\{|S_n-S_i|\geq  \sigma\sqrt {2 n}  \right\} \leq \nonumber \\
+\leq \sum\limits_{i=1}^{n-1}P(E_i)\frac{n-i}{2n} \leq \frac{1}{2}P\left\{\max\limits_{i\leq n}|S_i| \geq \lambda \sigma \sqrt n\right\}.
+\end{gather} 
+
+\end{proof}
+\section{Dimostrazione}
+Come ultimo passo preliminare ricordiamo l'enunciato del Teorema Limite Centrale:
+
+\begin{teo}{\textbf{(T.L.C.)}} Date $(\xi_i)_{i \in N}$ v.a.r. i.i.d. con $\mathbb E [\xi_i]=\mu$ e $Var[\xi_i]=\sigma^2>0$ allora:
+$$ \frac{\xi_1+ ... +\xi_n - n \mu}{\sigma \sqrt n}  \xrightarrow{\mathscr{L}} N(0,1).$$
+\end{teo}
+\bigskip
+Possiamo finalemente passare alla dimostrazione del Teorema \ref{donsker}. 
+
+\begin{proof} Proviamo che le $(X_i)$ sono \textit{tight}: prendendo $\lambda > 2\sqrt 2$ (senza perdita di generalità in quanto ci interessano $\lambda$ grandi) ottengo
+
+$$P\left\{\max\limits_{i\leq n}|S_i| \geq \lambda \sigma \sqrt n\right\} \leq 2 P\left\{ |S_n| \geq \frac{1}{2}\lambda \sigma \sqrt n \right\}$$
+
+E dal Teorema Limite Centrale sappiamo:
+
+\begin{gather}
+P\left\{ |S_n| \geq \frac{1}{2}\lambda \sigma \sqrt n \right\} \longrightarrow P\left\{|N(0,1)| \geq \frac{1}{2}\lambda \right\} \leq 8\frac{ \mathbb E \left[ \left| N(0,1) \right|^3\right]}{\lambda^3}<\frac{\epsilon}{\lambda^2} \nonumber \\
+\implies \forall \epsilon>0 \  P\left\{\max\limits_{i\leq n}|S_i| \geq \lambda \sigma \sqrt n\right\}<\frac{\epsilon}{\lambda^2} \text{ definitivamente in } n.
+\end{gather}
+Dal Lemma \ref{lem_3} segue la \textit{tightness} di $(X_i)$. \\
+
+Mostriamo ora che i limiti in legge delle distribuzionii finito-dimensionali delle $(X_n)$ coicidono con le distribuzioni finito-dimensionali di $B$, per un solo istante temporale $t$ si ha
+
+$$\left|{ X_n(t) - \frac{1}{\sigma \sqrt n} S_{\lfloor nt \rfloor} }\right| \leq \left| \frac{1}{\sigma \sqrt n} \xi_{\lfloor nt \rfloor +1} \right| \xrightarrow{P}0$$
+Dal T.L.C. e dal fatto che $\frac{\sqrt{\lfloor nt \rfloor}}{\sqrt{n}} \longrightarrow \sqrt{t}$ sappiamo che 
+$$\frac{1}{\sigma \sqrt n}S_{\lfloor nt \rfloor}\xrightarrow{\mathscr L}B_t\sim N(0,t)$$
+Ed è facile verificare dalla definizione di convergenza in legge che queste due implicano
+$$X_n(t)\xrightarrow{\mathscr L}B_t $$
+Per quanto riguarda un numero di punti maggiore \'e sufficiente notare che 
+
+$$(X_n(s),X_n(t))\xrightarrow{\mathscr L}(B_s,B_t) $$
+
+per $s<t$ discende da
+
+$$(X_n(s),X_n(t)-X_n(s))\xrightarrow{\mathscr L}(B_s,B_t-B_s) $$
+
+a meno di comporre per una funzione continua, operazione che preserva la convergenza in legge. \\
+Per provare quest'ultima \'e sufficiente notare che vale 
+$$\left(\frac{1}{\sigma \sqrt n}S_{\lfloor ns \rfloor}, \frac{1}{\sigma \sqrt n}\left(S_{\lfloor nt \rfloor} - S_{\lfloor ns \rfloor}\right)\right)\xrightarrow{\mathscr L}(B_s,B_t-B_s) $$
+in quanto si ha convergenza componente per componente e le componenti sono indipendenti in RHS per definizione e in LHS poich\'e abbiamo richiesto che lo fossero le $(\xi_i)$. \\
+Il caso con più di 2 istanti temporali è analogo, si è eseguita la dimostrazione nel caso 2-dimensionale per comodità notazionale.\\
+\\
+La convergenze delle distribuzioni finito dimensionali \'e sufficiente a garantire che il limite, esistente per compattezza relativa, abbia distribuzione $W$ (misura di Wiener) in quanto l'insieme delle parti di $C[0,1]$ su cui la probabilità limite e $W$ coincidono sono una classe monotona che genera $\mathscr C$. Abbiamo dunque provato che per ogni sottosuccessione il suo limite in legge ha la stessa distribuzione e dalla definizione di convergenza in legge, che consiste nella convergenza in uno spazio metrico di certi integrali, questo implica
+
+ $$X_n \xrightarrow{\mathscr{L}} B.$$
+
+\end{proof}
+
+
+\chapter{CRT: rappresentazione per campionamento}
+\section{Prime Definizioni}
+
+In questo capitolo definiremo il \textit{Continuum Random Tree} (CRT) e ne forniremo una rappresentazione in termini di famiglie di alberi aleatori finiti.\\
+\\
+Vogliamo dare una nozione di albero che tenga conto della lunghezza degli archi, condizione necessaria affinchè sia possibile studiarne il limite di scala.
+
+\begin{definizione}\label{def_albero}\textbf{{(Albero)}} Sia $T_n$ l'insieme dei grafi connessi aciclici aventi $n$ vertici. Definiamo \textit{albero} un elemento del tipo
+$t=(\hat{t}, x_1, ... \, , x_{n-1}) \in T_n \times \mathbb{R}^{n-1}_+$. Dove gli $n-1$ numeri reali rappresentano le lunghezze dei suoi lati. Denotiamo la radice di $t \in T_n$ con $\mathcal{R}$ e la distanza tra due nodi $v_1, v_2$ di $t$ con $d(v_1,v_2)$ intendendo con essa la somma delle lunghezze dei lati dell'unico cammino che congiunge $v_1$ a $v_2$.
+\end{definizione}
+\begin{center}
+\begin{forest}
+for tree={circle,draw, l sep=20pt, minimum size=2.2em}
+[$\mathcal{R}$, 
+[1, edge label={node[midway,fill=white,font=\scriptsize] {$x_1$}}
+    [2,  edge label={node[midway,fill=white,font=\scriptsize] {$x_2$}}
+      [3,edge label={node[midway,fill=white,font=\scriptsize] {$x_3$}} ] 
+      [4, edge label={node[midway,fill=white,font=\scriptsize] {$x_4$}}]
+    ]
+    [5, edge label={node[midway,fill=white,font=\scriptsize] {$x_5$}}
+      [6, edge label={node[midway,fill=white,font=\scriptsize] {$x_6$}}]  
+      [7, edge label={node[midway,fill=white,font=\scriptsize] {$x_7$}}]
+  ] 
+]
+]
+\end{forest}
+\end{center}
+\begin{oss}\label{oss_topology}
+Sullo spazio $T_n \times \mathbb{R}_+^{n-1}$ considereremo la naturale topologia prodotto, scegliendo ovviamente la topologia discreta sull'insieme $T_n$. Quando parleremo di "albero aleatorio" ci riferiremo alla sua misurabilità rispetto alla $\sigma$-algebra di Borel su $T_n \times \mathbb{R}_+^{n-1}$.
+\end{oss}
+Chiarifichiamo da subito alcune ambiguità notazionali, ovvero termini che utilizzeremo con diverse accezioni, prestando attenzione sarà chiaro dal contesto il nostro riferimento:
+\begin{itemize}
+\item Dal punto di vista della teoria dei grafi classica gli alberi vengono considerati senza tenere conto della lunghezza dei loro lati, ovvero come una coppia $(V,E)$ dove $V$ è l'insieme dei vertici ed $E$ quello degli archi, intesi come una relazione binaria simmetrica sui vertici. Ci riferiremo quindi ad \textit{albero} sia in questo senso che in quello della Definizione \ref{def_albero}.
+
+\item L'insieme $T_n$ può essere considerato come l'insieme degli alberi ordinati, o planari, ossia che distinguono l'ordine di nascita dei "figli" una volta fissata una radice e quindi una funzione padre, oppure ignorando questa ulteriore struttura e considerando uguali due alberi che differiscano solo per l'ordine. Utilizzeremo il significato che ci fornisce la struttura che in quel momento ci sarà necessaria, in questo capitolo ad esempio considereremo gli alberi come non ordinati.
+\end{itemize}
+
+\begin{definizione}{\textbf{(Branchpoint)}} Sia $t \in T_n$ un albero e $v, \; v^*$ vertici di $t$, siano $(\mathcal{R}, v_1, ... \, , v)$ e $(\mathcal{R},v_1^*, ...\, , v^*)$ i cammini dalla radice a $v$ e $v^*$ rispettivamente, si definisce \textit{branchpoint} di $v$ e $v^*$ e si denota con $b(v,v^*) \in t$ l'estremo destro del sottocammino  
+comune massimale $(\mathcal{R}, ...\, , b(v,v^*))$. Nelle applicazioni questo è generalmente chiamato \textit{last common ancestor} (LCA).
+\end{definizione}
+
+\begin{definizione}{\textbf{(Sottoalbero Ridotto)}}
+Sia $t$ un albero e $B$ un sottoinsieme dei suoi vertici, si definisce \textit{sottoalbero ridotto} $r(t,B)$ l'albero costituito dalla radice, dagli elementi di $B$ e dai nodi del tipo $b(v_1,v_2)$ per $v_1, v_2 \in B$. Dati $a$ e $b$ vertici di $r(t,B)$ l'arco $(a,b)$ appartiene a $r(t,B)$ se esiste un cammino $(a=v_0, ... \, , v_k=b)$ in $t$ tale che $v_i \not\in r(t,B) \ \forall i\neq 0,k$. Assegnamo ad $(a,b)$ lunghezza pari a quella del cammino tra $a$ e $b$ in $t$.
+\end{definizione}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% QUI POTREI INSERIRE UNA FANTASTICA FIGURA SE HO SBATTY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{definizione}{\textbf{(k-Albero Proprio)}}
+Si definisce \textit{k-albero proprio} un albero avente esattamente $k$ foglie (nodi privi di figli) e tale che ogni nodo interno eccetto la radice abbia esattamente 2 figli e la radice abbia al più 2 figli.
+\end{definizione}
+
+\begin{oss}
+Il sottoalbero ridotto $r(t,B)$ di $t$ è un k-albero proprio se vale 
+\begin{equation}
+\forall x,y,z \in B \quad b(x,y)=b(y,z)=b(x,z)=b \implies x=b \lor y=b \lor z=b
+\end{equation}
+\end{oss}
+
+Consideriamo al variare di $n$ un albero aleatorio $\mathscr{T}_n$ avente $n$ nodi, per ogni $n$ sia $(V_1^n,... \, ,V_n^n)$ una permutazione aleatoria uniforme di $(1,...\, ,n)$, sia $\{\mathscr{R}(k)\}_{k \in \mathbb{N}}$ una famiglia di alberi aleatori t.c. $\mathscr{R}(k)$ è il limite in legge (sullo spazio $T_n \times \mathbb{R}_+^{n-1}$) dell'albero aleatorio $r(\mathscr{T}_n, (V_1^n, ... \, ,V_k^n))$ per $n \rightarrow \infty$.\\
+Una condizione necessaria sulla la famiglia $\{\mathscr{R}(k)\}_{k \in \mathbb{N}}$ affichè sia limite di un tale campionamento aleatorio è che sia \textit{consistente}, ovvero:
+
+\begin{definizione}{\textbf{(Famiglia Consistente)}}
+Per ogni $k\in \mathbb{N}$ sia $(L_1^k, ... \, ,L_k^k)$ permutazione aleatoria uniforme delle foglie di $\Rr(k)$. La famiglia $\{\mathscr{R}(k)\}_{k \in \mathbb{N}}$ di k-alberi propri aleatori è detta \textit{consistente} se
+\begin{equation}
+\forall j\leq k \quad r(\Rr(k), (L_1^k, ...\, ,L_j^k)) \stackrel{d}{=} \Rr(j)
+\end{equation}
+\end{definizione}
+Diamo un'altra definizione che ci servirà in seguito:
+
+\begin{definizione}{\textbf{(Leaf-tight)}}
+Per ogni $k\in \mathbb{N}$ sia $(L_1^k, ... \, ,L_k^k)$ permutazione aleatoria uniforme delle foglie di $\Rr(k)$. La famiglia $\{\mathscr{R}(k)\}_{k \in \mathbb{N}}$ di k-alberi propri aleatori è detta \textit{leaf-tight} se
+\begin{equation}
+\min\limits_{2\leq j \leq k} d(L_1^k,L_j^j) \xrightarrow{P} 0 \quad \text{ per } k \rightarrow \infty
+\end{equation}
+\end{definizione}
+
+Vogliamo ora mostrare come una famiglia di k-alberi propri aventi queste due proprietà definisce un CRT.
+
+\section{Rappresentazione in $l_1$}
+Per formalizzare la convergenza in scala Aldous introduce in \cite{Ald1} la seguente rappresentazione degli alberi nello spazio $l_1$:
+\begin{definizione}
+Sia $t$ un albero avente vertici $(v_i)$, siano $(v^*_i) \in l_1$ tali che $\mathcal{R}^*=0$ e
+\begin{equation}\label{eq_rapp_l1}
+||v^*_i-v^*_j||=d(v_i,v_j) \quad \forall i,j.
+\end{equation}
+Allora l'insieme chiuso $S(t)$ dei vertici immersi e dei corrispondenti cammini rettilinei tra essi è detto \textit{rappresentazione insiemistica} di $t$, mentre la misura di probabilità empirica sui $(v^*_i)$ $\mu(t)$ è detta \textit{rappresentazione in misura} di $t$.
+\end{definizione}
+Possiamo ora parlare di convergenza di alberi in termini di convergenza topologica con la distanza di Hausdorff tra gli $S(t)$ e di convergenza debole delle misure $\mu(t)$.
+
+\begin{notazione}
+Dato $t$ albero ed $S(t)$ la sua rappresentazione insiemistica indicheremo con $[[x,y]]$ l'unico cammino in $S(t)$ che congiunge $x$ ed $y$. Se il cammino è lineare a tratti e congiunge nell'ordine punti del tipo
+\begin{gather}
+0, \nonumber \\
+(x_1, 0, 0, ...), \nonumber \\
+(x_1, x_2, 0, 0, ...), \nonumber \\
+(x_1, x_2, x_3, 0, 0, ...), \nonumber \\
+... \nonumber
+\end{gather}
+questo sarà un cammino \textit{speciale} e verrà indicato con $[[x,y]]_{sp}$, un albero è detto \textit{speciale} se possiede solo cammini speciali.
+\end{notazione}
+\begin{oss}
+Disponiamo di una scrittura esplicita per la rappresentazione del sottoalbero ridotto:
+\begin{equation}
+S(r(t,B))=\bigcup\limits_{v \in B} [[0,v]].
+\end{equation}
+\end{oss}
+
+\begin{notazione}
+In quanto segue indicheremo con $\{e_i\}_{i \in \mathbb{N}}$ la base canonica di $l_1$.
+\end{notazione}
+
+\bigskip
+
+\textbf{Costruzione Sequenziale}\\
+Illustriamo ora un'esplicita \textit{costruzione sequenziale} di questa rappresentazione per un albero finito $t$ di vertici $(v_i)$.
+Sia $(w_1, ...\, ,w_k)$ una numerazione delle sue foglie, mostriamo come costurire il cammino verso la prima foglia ed il passo induttivo per aggiungere la $n$-esmia data la rappresentazione dell'albero $r(t, \{w_1, ... \, , w_{n-1}\})$ contenente le prime $n-1$.
+\begin{itemize}
+\item Sia $(\mathcal{R}= v_{1,1},\, v_{1,2}, ... \, ,v_{1,j_1}= w_1)$ il cammino da $\mathcal{R}$ a $w_1$,
+ $$\forall i=1,...\, ,j_1 \text{ poniamo } v_{1,i}^*=d(\mathcal{R}, v_{1,i})e_1.$$ 
+
+\item Supponiamo costruito $r(t, \{w_1, ... \, , w_{n-1}\})$, sia $(\mathcal{R}=v_{n,1}, \, v_{n,2}, ... \, ,v_{n,j_n}=w_n)$ il cammino da $\mathcal{R}$ a $w_n$, sia $v_{n,q}$ l'ultimo nodo di tale cammino ad appartenere a $r(t, \{w_1, ... \, , w_{n-1}\})$,
+$$ \forall i \text{ con } q<i\leq j_n \text{ poniamo } v_{n,i}^*=v_{n,q}^*+d(v_{n,i},v_{n,q})e_n.$$
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}
+\node (R) at (0,0) {$\mathcal{R}^*$};
+\node (v1) at (2,0) {$v_1^*$};
+\node (v2) at (4,0) {$v_2^*$};
+\node (w1) at (6,0) {$w_1^*$};
+\node (w2) at (5.5,1.5) {$w_2^*$};
+\node (v3) at (2,2) {$v_3^*$};
+\node (w3) at (2,4) {$w_3^*$};
+\node (w4) at (4,2) {$w_4^*$};
+\node (e1) at (8,0) {$e_1$};
+\node (e3) at (0,6) {$e_3$};
+\node (e2) at (4,4) {$e_2$};
+
+\draw[-, yellow, very thick] (R) -- (v1);
+\draw[-, yellow, very thick] (v1) -- (v2);
+\draw[-, yellow, very thick] (v2) -- (w1);
+\draw[-, orange, very thick] (v2) -- (w2);
+\draw[-, red, very thick] (v1) -- (v3);
+\draw[-, red, very thick] (v3) -- (w3);
+\draw[dashed, violet, very thick] (v3) -- (w4);
+\draw[->, black] (w1) -- (e1);
+\draw[->, black] (R) -- (e3);
+\draw[-, black] (R) -- (v3);
+\draw[->, black] (v3) -- (e2);
+
+\end{tikzpicture}
+\begin{forest}
+for tree={circle,draw, l sep=20pt, minimum size=2.2em}
+[$\mathcal{R}$, name=R
+    [$v_1$, name=v1
+    	[$v_2$, name=v2
+      		[$w_1$, name=w1]
+      		[$w_2$, name=w2]
+		]      	
+      	[$v_3$, name=v3
+    		[$w_3$, name=w3]
+    		[$w_4$, name=w4]
+    	]
+    ]
+]
+;
+\draw[->, yellow, very thick] (R.south west) -- (v1.north west);
+\draw[->, yellow, very thick] (v1.west) -- (v2.north west);
+\draw[->, yellow, very thick] (v2.west) -- (w1.north west);
+\draw[->, orange, very thick] (v2.east) -- (w2.north east);
+\draw[->, red, very thick] (v1.east) -- (v3.north east);
+\draw[->, red, very thick] (v3.west) -- (w3.north west);
+\draw[->, violet, very thick] (v3.east) -- (w4.north east);
+\end{forest}
+\vspace{1.5cm}
+\hspace{3cm}
+
+\end{center}
+
+\begin{oss}
+La costruzione sequenziale fornisce una rappresentazione di $t$ in cui tutti i cammini sono speciali, infatti vale
+\begin{equation}
+S(t)=\bigcup\limits_{1\leq i \leq k} [[0,w_i^*]]_{sp}.
+\end{equation}
+\end{oss}
+\begin{oss} \label{oss_branchpoint}
+Data la rappresentazione indotta dalla costruzione sequenziale abbiamo una formula esplicita per il branchpoint di $x$ e $y$:
+\begin{equation} 
+(b(x,y))_i=\min\{x_i, y_i\}.
+\end{equation}
+\end{oss}
+\begin{definizione}{\textbf{(Continuum Tree)}}\label{def_CT}
+Dato $S \subseteq l_1$ e $\mu_0$ misura non atomica su $l_1$ la coppia $(S,\mu_0)$ è detta \textit{continuum tree} se valgono le senguenti:
+\begin{enumerate}
+\item $0 \in S$\footnote{Ed è considerata la sua radice.}.
+
+\item$\forall x, y \in S$ esiste un unico cammino semplice in $S$ che li connette ed ha lunghezza $\norm{x-y}$.\\
+\\
+Se valgono queste prime proprietà possiamo definire il \textit{branchpoint} $b(x,y)$ per un continuum tree come l'estremo destro di $[[0,x]]\cap [[0,y]]$.\\
+Definiamo lo \textit{scheletro} di $S$ come 
+$$\left\{x\in S \ | \ \exists y \in S \text{ t.c. } x\in [[0,y[[\right\}$$
+ dove $[[0,y[[=[[0,y]]\setminus \{y\}$ e definiamo \textit{foglie} gli elementi di $S$ che non stanno nello scheletro.
+
+
+
+\item $\forall x,y,z \in S \quad b(x,y)=b(y,z)=b(x,z)=b \implies x=b \lor y=b \lor z=b$.
+
+\item $\mu_0\{x\in S \ | \ x \text{ è una foglia}\}=1$.
+
+\item $\mu_0\left\{y\in S \ | \ x\in [[0,y]]\right\}>0$ per ogni $x$ nello \textit{scheletro} di $S$. 
+
+\end{enumerate}   
+\end{definizione}
+
+\begin{definizione}{\textbf{(CRT)}}
+Se $\Ss$ è una v.a. a valori in nello spazio dei chiusi di $l_1$\footnote{Considerato con la distanza di Hausdorff e la $\sigma$-algebra di Borel da essa indotta.}, $\mu$ una v.a. a valori nello spazio delle misure di $l_1$ \footnote{Considerato con la topologia debole e la $\sigma$-algera di Borel da essa indotta.} e ogni realizzazione $(\Ss(\omega), \mu(\omega))$ è un \textit{continuum tree} allora la coppia $(\Ss, \mu)$ è detta \textit{continuum random tree}.
+\end{definizione}
+
+\section{Teorema di Rappresentazione}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ATTENZIONE: in effetti il teorema non dice proprio che il CRT è caratterizzato dalle distribuzioni dei sampling finito-dimensionali, afferma invece che c'è una mappa surgettiva
+% {alberi aleatori}-->{distribuzioni finito dimensionali}
+% ma non dice mai che questa mappa è anche iniettiva....
+% ci potrebbero essere  più alberi per la stessa successione di distribuzioni...
+% PRIMA QUI SOTTO AVEVO SCRITTO CHE: i sampling finito-dim caratterizzavano il CRT, falso xk sappiamo che la mappa è surgettiva e non sappiamo che è anche iniettiva (tra l'altro è un buon quoziente quello che la rende iniettiva??)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Possiamo finalmente enunciare il risultato principale di questo capitolo. Informalmente questo è un analogo del teorema di estensione di Kolmogorov nel caso degli alberi, prendendo sottoalberi ridotti finiti ottenuti con un campionamento aleatorio in luogo delle "distribuzioni finito dimensionali".
+\begin{definizione}{\textbf{(V.A. Scambiabili)}}\label{def_scamb}
+La successione di v.a. $(Z_i)_{i \in \mathbb{N}}$ si definisce \textit{scambiabile} se per ogni permutazione $\sigma \in S_n$, estesa l'azione di $\sigma$ su tutto $\mathbb{N}$ ponendo ${\sigma(i)=i}$\\$\forall i>n$, si ha che $(Z_i)_{i \in \mathbb{N}}$ e $(Z_{\sigma(i)})_{i \in \mathbb{N}}$ sono equidistribuite.
+Si dice inoltre che $(Z_i)$ è \textit{scambiabile} e diretta dalla misura aleatoria $\mu$ se, condizionatamente a $\mu=\mu_0$ \footnote{Si richiede per quei $\mu_0$ per cui è definita la probabilità condizionata, ovvero per cui $P\{\mu=\mu_0\}>0$.}, le $(Z_i)$ sono i.i.d. con legge $\mu_0$.
+\end{definizione}
+Vale il seguente risultato sulle successioni scambiabili:
+\begin{teo}{\textbf{(De Finetti)}}\label{de_finetti}
+Sia $(Z_i)$ una successione di v.a. scambiabili, allora esiste una misura aleatoria $\mu$ tale che le $(Z_i)$ siano dirette da $\mu$\footnote{Enunciato tratto da Aldous D.J. (1985) \textit{Exchangeability and related topics.} \cite{Ald_definetti}.}.
+\end{teo}
+
+Veniamo ora al teorema principale di questo capitolo:
+\begin{teo}{\textbf{(Rappresentazione per Campionamento)}}\label{rap_fin}
+Sia $(\Rr(k))_{k\geq 1}$ una famiglia consistente e leaf-tight di k-alberi propri aleatori. Esiste un CRT $(\Ss, \mu)$ tale che data una successione $(Z_i)$ scambiabile diretta da $\mu$
+\begin{equation}\label{fin_thm}
+\forall k\geq 1 \quad r(\Ss, \{Z_1, ... \, , Z_k\}) \text{ è una rappresentazione insiemistica di } \Rr(k).
+\end{equation}
+Inoltre se $(\Ss, \mu)$ è un CRT allora la \eqref{fin_thm} definisce q.c. una famiglia di k-alberi aleatori consistente e leaf-tight.
+\end{teo}
+
+Prima di addentrarci nella dimostrazione del Teorema \ref{rap_fin} vediamo alcuni lemmi preliminari.
+\begin{oss}
+Sia $(S,\mu_0)$ un CRT, grazie alla proprietà $2$ della Definizione \ref{def_CT} che garantisce l'unicità del cammino tra punti di $S$, risulta ben definito il sottoalbero ridotto di $S$ rispetto ad un sottoinsieme $B$ delle sue foglie:
+$$r(S,B)=\overline{\bigcup\limits_{v\in B} [[0,v]]}$$
+\end{oss}
+\begin{lemma}\label{scheletro_lemma}
+Sia $(S, \mu_0)$ un continuum tree. Siano $(z_i)_{i\in \mathbb{N}} \in S$ t.c. $S=r(S, (z_i)_{i\in \mathbb{N}})$, allora lo scheletro si $S$ è dato da $\bigcup_i [[0,z_i[[$.
+\end{lemma}
+\begin{proof}
+Sia $y \in S$ allora esiste una successione $(y_i)$ di elementi di $\bigcup\limits_{v\in B} [[0,v]]$ tali che $y_i \rightarrow y$ e una sottosuccessione $(z_{j_i})$ degli $(z_i)$ tale che $\forall i\in \mathbb{N} \quad y_i \in [[0,z_{j_i}]]$. Dal fatto che 
+$$\norm{y-b(y_i,y)}\leq \norm{y-y_i} \rightarrow 0$$
+segue che $b(y,y_i) \rightarrow y$ da cui
+$$[[0,y[[ \; \subseteq \bigcup\limits_i \; [[0,y_i[[ \;\subseteq \bigcup\limits_i \; [[0,z_i[[\; .$$
+\end{proof}
+
+\begin{lemma} \label{process_lemma}
+Sia $(\Rr(k))_k$ una famiglia consistente di k-alberi propri aleatori, e sia $S(k)$ la rappresentazione insiemistica di $\Rr(k)$.
+Allora esiste un processo a tempi discreti ${L:\mathbb{N} \longrightarrow l_1}$ t.c. possiamo scrivere $S(k)$ come
+\begin{equation}\label{Kolmo_0}
+S(k)=\bigcup\limits_{1\leq i \leq k} [[0,L_i]]_{sp}.
+\end{equation}
+\end{lemma}
+\begin{proof}
+Per ogni $k\geq 1$ esistono $Y_1^k, ... \, , Y_k^k$ v.a. a valori in $l_1$ tali che 
+\begin{equation} \label{Kolmo}
+S(k)=\bigcup\limits_{1\leq i \leq k} [[0,Y_i^k]]_{sp} \nonumber
+\end{equation}
+consideriamo ora le leggi delle v.a. vettoriali $(Y_1^k, ... \, ,Y_k^k) \in l_1^k$, grazie alla consistenza queste rispettano le ipotesi del teorema di estensione di Kolmogorov, quindi esiste un processo $(L_i)_{i\geq 1}$ che ha quelle distribuzioni come marginali finito-dimensionali e possiamo costruire le rappresentazioni $(S(k))_k$ simultanemente, scegliendo una sola volta il processo.
+\end{proof}
+\begin{lemma}\label{limsup_lemma}
+Sia $\pi_j:l_1 \longrightarrow \mathbb{R}^j$ la proiezione lungo le prime $j$ coordinate. Sia $\beta_k$ una distribuzine su $l_1$ tale che per ogni $j$ esiste $\lim\limits_{k\to\infty} \pi_j \beta_k$\footnote{Dove $\pi_j \beta_k$ è il push-forward della misura $\beta_k$ tramite $\pi_j$ su $\mathbb{R}^j$.} allora una condizione sufficiente affinchè esista $\lim\limits_{k\to\infty} \beta_k$ è la seguente:
+\begin{equation}\label{bill}
+\lim\limits_{j\rightarrow \infty} \limsup\limits_k \beta_k\left\{x \ \bigg| \ \norm{x - \pi_j(x)}>\epsilon\right\}\rightarrow 0 \quad \forall \epsilon >0\footnote{Risultato tratto da Patrick Billingsley (1968) \textit{Convergence of Probability Measures.} \cite{billing}.}.
+\end{equation}
+\end{lemma}
+%\begin{proof}
+%QUESTO SI DIMOSTRA???????????
+%\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{comment} %%% questo lemma non lo scrivo me sa
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%begin{lemma}
+%Sia $(Z_i)$ una successione di v.a. scambiabili e dirette dalla misura aleatoria $\mu$. Per ogni $n \in \mathbb{N}$ sia $(\xi_1^n, ... \, ,\xi_n^n)$ scambiabile e con distribuzione empirica la misura aleatoria $\mu_n$. Sono equivalenti i seguenti:
+%\begin{enumerate}
+%\item $\forall k\geq 1 \quad (\xi_1^n, ...\, ,\xi_k^n) \rightarrow (Z_1, ...\, ,Z_k) \text{ per } n\rightarrow \infty.$
+%\item $\mu_n \rightarrow \mu$.
+%\end{enumerate}
+%\end{lemma}
+%\begin{proof}
+%E QUESTO SI DIMOSTRA?????
+%\end{proof}
+%\end{comment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{lemma} \label{empiric_lemma}
+Sia $(\Rr(k))_k$ una famiglia leaf-tight. Per ogni $k \geq 1$ siano $L_1, ...\, , L_k$ come nella \eqref{Kolmo_0}. Siano $v^k(\omega, \cdot)$ le distribuzioni empiriche date da una realizzazione delle $(L_i)_{i \leq k}$\footnote{Ovvero $v^k(\omega, \cdot)= \frac{1}{k}\sum\limits_{1\leq i\leq k} \delta_{L_i}(\cdot)$, dove $\delta_x(\cdot)$ è la probabilità atomica concentrata in x.} allora
+\begin{equation}
+v^k(\omega, \cdot) \rightarrow \mu(\omega, \cdot) \text{ per qualche misura aleatoria } \mu.
+\end{equation}
+\end{lemma}
+\begin{proof}
+Per dimostrare la convergenza delle leggi empiriche utilizzeremo il Lemma \ref{limsup_lemma}, definiamo $\pi_j$ nello stesso modo e verifichiamone le ipotesi:\\
+\\
+Vogliamo dimostrare che esiste $\lim_k\pi_j v^k(\omega, \cdot)$. Proviamo per prima cosa che la successione $(\pi_j L_k)_{k>j}$ è scambiabile. Dalla consistenza degli $(\Rr(k))_k$ si ha che se $\sigma$ definisce l'azione su $\mathbb{N}$ come nella Definizione \ref{def_scamb} e l'azione naturale su $l_1$ indotta dalla permutazione dei vettori di base allora
+\begin{equation} \label{algebraic}
+(\sigma^{-1} \cdot L_{\sigma\cdot k})_k \text{ e } (L_k)_k \text{ sono equidisribuite.}
+\end{equation}In altri termini le foglie, una volta immerse in $l_1$, non sono più scambiabili, poichè dotate dell'ulteriore struttura vettoriale, per ottenere la distribuzione di partenza è però sufficiente comporle con l'isomorfismo lineare indotto dall'azione di $\sigma^{-1}$. A questo punto basta notare che una permutazione finita $\sigma$ delle $(L_k)_{k>j}$ definisce un'azione su $l_1$ che non ha effetto sulle prime $j$ componenti, ovvero vale $\pi_j (\sigma \cdot x) = \pi_j( x) \quad \forall x \in l_1$ e lo stesso accade per $\sigma^{-1}$, quindi la \eqref{algebraic} ci da la scambiabilità di $(\pi_j L_k)_{k>j}$. Per il Teorema \ref{de_finetti} la successione $(\pi_j L_k)_{k>j}$ ha una misura aleatoria direttrice $\mu_j$ e quindi per la legge dei grandi numeri si ha che q.c. per ogni $A$ misurabile $\pi_j v^k(\omega, A)$ converge alla realizzazione della misura direttrice $\mu_j(\omega, A)$.\\
+\\
+Per soddisfare la \eqref{bill} è sufficiente che valga
+$$ \lim\limits_{j\to \infty} \limsup\limits_k \frac{1}{k} \stackrel{k}{\sum\limits_{i=j+1}} I_{\left\{\norm{L_i-\pi_j L_i}>\epsilon \right\}} = 0 \quad \text{quasi certamente.}$$
+Per dimostrare questa uguaglianza mostriamo che il valore atteso di LHS è nullo. Le v.a. $\norm{L_i-\pi_j L_i}$ sono scambiabili in quanto la norma rende ininfluente l'azione su $l_1$ di $\sigma^{-1}$ come definita nella \eqref{algebraic}. Sia $\hat{\mu}$ la loro misura aleatoria direttrice. Per sfruttare l'ipotesi di scambiabilità calcoliamo l'integrale del valore atteso spezzandolo sugli insiemi $\left\{ \hat{\mu}= \hat{\mu_0}\right\}$ al variare delle realizzazioni possibili $\hat{\mu_0}$ di $\hat{\mu}$. Limitatamente a tali eventi si ha infatti che il valore atteso del limsup vale $P\Big(\norm{L_{j+1}-\pi_j L_{j+1}}>\epsilon\Big)$, mostriamo che questa probabilità tende a zero per $j \to \infty$:
+\begin{gather}
+\norm{L_{j+1}-\pi_j L_{j+1}}\leq \min\limits_{1\leq i \leq j} \norm{L_{j+1}-L_i} \stackrel{d}{=} \min\limits_{2\leq i \leq j+1} \norm{L_1-L_i} \stackrel{d}{=}\min\limits_{2\leq i \leq j+1} d\left(L_1, L_i\right)\xrightarrow{P} 0 \nonumber
+\end{gather}
+per la proprietà leaf-tight. Questo ci è sufficiente poichè l'argomento del limite per $j\longrightarrow \infty$ è monotono in $j$ e possiamo quindi far commutare limite e valore atteso.
+\end{proof}
+
+La successione $\left(L_i\right)$ una volta immersa in $l_1$ non è più scambiabile, quindi ci serve il seguente:
+
+\begin{lemma} \label{s0_lemma}
+Sia $(Z_i)$ una successione di v.a. a valori in $l_1$ scambiabile diretta dalla misura $\mu$ come definita nel Lemma \ref{empiric_lemma}, allora per ogni $k\geq 1$
+\begin{equation}
+S_0(k)=\bigcup\limits_{1\leq i \leq k} [[0,Z_i]]_{sp} \text{ è una rappresentazione insiemistica di } \Rr(k).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Sia $S(n)$ la rappresentazione insiemistica di $\Rr(n)$ definita nella \eqref{Kolmo_0}. Fissato $k<n$ definiamo 
+$$ S(k,n):=r\left( S(n), \left\{L_{\pi_n(1)}, \, \dots \, , L_{\pi_n(k)}\right\} \right)$$
+dove $\pi_n$ è una permutazione aleatoria uniforme di $\left(1, \, \dots \, ,n\right)$. Per consistenza $S(k,n)$ è una rappresentazione insiemistica di $\Rr(k)$ e per la legge dei grandi numeri 
+$$\left(L_{\pi_n(1)}, \, \dots \, , L_{\pi_n(k)}\right)  \xrightarrow{d} \left(Z_1, \, \dots \, ,Z_k\right)\quad \text{ per } n\rightarrow\infty.$$
+Di conseguenza $S(k,n)\xrightarrow{d} S_0(k)$ che risulta quindi a sua volta una rappresentazione insiemistica di $\Rr(k)$.
+\end{proof}
+
+Possiamo finalmente procedere alla dimostrazione del Teorema \ref{rap_fin}.
+\begin{proof}
+Proviamo la prima parte del teorema. Sia $S_0(k)$ come nel Lemma \ref{s0_lemma}, definiamo $\Ss$ come la chiusura di $\bigcup_k S_0(k)$. Dobbiamo provare che $\Ss$ è un CRT, a quel punto la proprietà \eqref{fin_thm} seguirà dal Lemma \ref{s0_lemma}. \'E sufficiente mostrare che una sua realizzazione soddisfa, punto per punto, la definizione di continuum tree, la misurabilità segue dalla costruzione\footnote{Per provarla è sufficiente verificare la misurabilità delle preimmagini delle palle chiuse nella metrica di Hausdorff e queste sono scrivibili come intersezioni numerabili delle preimmagini di chiusi tramite le $Z_i$ che sono misurabili.}.
+Fissiamo una realizzazione $L(\omega)$ del processo del Lemma \ref{process_lemma} e definiamo $\Ss^*$ come la chiusura di $S(\infty)=\bigcup_i[[0, L_i(\omega)]]_{sp}$.\\
+Per il Lemma \ref{empiric_lemma} la distribuzione empirica degli $L_i(\omega)$ ha una certa distribuzione limite $\mu_\infty$, dato che gli $Z_i$ hanno legge $\mu_\infty$ e che $\{L_i(\omega)\}_i$ è denso in $supp(\mu_	\infty)$ allora q.c. $Z_i \in \Ss^*$ dunque $\Ss$ è un sottoalbero ridotto di $\Ss^*$, ci sarà quindi sufficiente provare le proprietà volute per $\Ss^*$.
+\begin{enumerate}
+\item $0 \in \Ss^*$ per ogni realizzazione.
+
+\item 
+Ricordiamo che gli $L_i(\omega)$ sono ottenuti attraverso la costruzione sequenziale applicata ad una realizzazione di $\Rr(k)$, quindi possiamo definire una funzione $\phi: \mathbb{N}^*\longrightarrow\mathbb{N}^*$ tale che $\phi(j)=k$ se il cammino che conduce ad $L_j$ si raccorda al ramo costruito al passo $k$ della costruzione sequenziale\footnote{Ovvero $r(S(\infty),\{L_i(\omega)\}_{i\leq k}) \setminus r(S(\infty),\{L_i(\omega)\}_{i\leq k-1})$.}.\\
+Sia $(x_1, x_2, ...)= x \in \Ss^*$ e sia $(1=j_1,j_2, ...)$ la successione crescente degli indici $i$ per cui $x_i \neq 0$, se $x \in S(\infty)$ la successione ha supporto finito e rappresenta il cammino dalla radice ad $x$, ovvero vale $j_{i+1}=\phi(j_i)$. Nel caso in cui $x \in \Ss^* \setminus S(\infty)$ vale ancora $j_{i+1}=\phi(j_i)$ in quanto tutti gli elementi di $S(\infty)$   che hanno la componente $j_i$-esima non nulla condividono il cammino fino al branchpoint $b(L_{j_i}, L_{\phi(j_i)})$ e $x$ è limite di tali elementi, quindi avrà le stesse componenti non nulle, dunque vi è un solo cammino dalla radice ad $x$, ovvero il cammino speciale passante per i branchpoints $b(L_{j_i}, L_{j_{i+1}})$. Da questo segue che 
+$\forall x,y \in \Ss^* \text{ esiste un unico cammino } [[x,y]] \text{ in } \Ss^* \text{ di lunghezza } \norm{x-y}.$
+
+\item Il fatto che $\Ss^*$ sia binario segue dal fatto che lo sono tutti i $\Rr(k)$ e quindi lo è anche $S(\infty)$ che ha i medesimi branchpoints di $\Ss^*$.
+
+\item Quasi certamente per ogni $k\geq 1$ esiste solo un numero finito di $i$ per cui $L_i(\omega) \in span(\{e_i\}_{i\leq k})$ e dal fatto che gli $Z_i$ hanno disrtribuzione $\mu_\infty$ segue che
+$$\forall k\geq 1 \quad P(Z_1 \in [[0, Z_k[[)=0$$
+e per il Lemma \ref{scheletro_lemma} si ha
+$$P\{Z_1 \text{ appartiene allo scheletro di }\Ss\}=0 \implies \mu_\infty\{x \ | \ x \text{ è una foglia di }\Ss\}=1$$ 
+
+\item Come abbiamo notato sopra q.c. $Z_i \in supp(\mu_\infty)$ dunque
+$$\forall \epsilon>0 \quad \mu_\infty\left(B_\epsilon(Z_i)\right)>0 \ \text{ con } \ B_\epsilon(Z_i)=\left\{x \ | \ \norm{x-Z_i}<\epsilon\right\}.$$
+Sia $a(Z_i, \epsilon) \in [[0, Z_i]]$ tale che $\norm{a(Z_i, \epsilon)-Z_i}=\min\{\epsilon, \, \norm{Z_i}\}$, allora per ogni $x\in B_\epsilon(Z_i)\cap \Ss$ vale $a(Z_i,\epsilon) \in [[0,x]]$ quindi
+$$\forall \epsilon>0 \quad \mu_\infty\left\{x \ | \ a(Z_i,\epsilon) \in [[0,x]]\right\}>\mu_\infty(B_\epsilon(Z_i))>0$$
+e per $\epsilon \rightarrow 0$ otteniamo la condizione $\mu_\infty\left\{x \ | \ a\in [[0,x]]\right\}>0 \text{ per ogni } a \text{ nello scheletro di } S.$
+\end{enumerate}
+
+Per quanto riguarda la seconda parte del Teorema \ref{rap_fin} il fatto che q.c. $\mu$ sia non atomica, insieme alle condizioni $3$ e $4$ della Definizione \ref{def_CT} garantiscono che $(\Rr(k))_k$ sia q.c. una famiglia di $k$-alberi propri. La \eqref{fin_thm} e il fatto che le $(Z_i)$ siano scambiabili ci danno la proprietà di consistenza, mentre  la proprietà di leaf-tight ci è data dal fatto che, condizionatamente a $\mu=\mu_0$, le $(Z_i)$ sono i.i.d. e quindi q.c. dense nel loro supporto.
+
+\end{proof}
+
+
+
+\chapter{CRT: rappresentazione funzionale}
+
+\section{Funzioni Contorno}
+
+Gli alberi finiti possono essere rappresentati attraverso le loro funzioni contorno, ovvero l'interpolazione lineare dei punti ottenuti dalla loro visita in profondità, nota in algoritmica come \textit{depth first search} (DFS). In questo capitolo generalizzeremo questo approccio per alberi continui, potremo quindi descrivere gli alberi aleatori ed il CRT stesso in termini di funzioni aleatorie nello spazio $C[0,1]$.
+
+\begin{definizione}{\textbf{(Albero Ordinato)}}
+Sia $t$ un albero finito, diremo che su $t$ è dato un \textit{ordine di figliazione} se per ogni nodo di $t$ è dato un ordinamento sui suoi figli, un albero avente un ordine di figliazione è detto \textit{ordinato}.
+\end{definizione}
+
+Vedremo con la seguente definizione che l'ordine di figliazione induce un ordinamento totale sui nodi, da cui il senso della definizione precedente.
+
+\begin{definizione}{\textbf{(DFS)}}
+Sia $t$ un albero finito ordinato, l'algoritmo DFS eseguito su $t$ visita i nodi secondo il seguente schema ricorsivo:
+\begin{itemize}
+\item Al passo $0$ esso visita la radice.
+
+\item Se al passo $i$ si trova nel nodo $v$ allora al passo $i+1$ visiterà il minimo tra i figli di $v$ non ancora visitato se ve ne sono, se invece tutti i figli sono già stati visitati al passo $i+1$ visiterà il padre di $v$.
+\end{itemize}
+\end{definizione}
+
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',every node/.style={circle,draw},level 1/.style={sibling distance=50mm},level 2/.style={sibling distance=20mm},level 3/.style={sibling distance=12mm},
+%scale=0.7, transform shape
+]
+\node (nA){$\mathcal{R}$}
+   child { node (nB) {1}
+              child { node (nD) {2}
+                         child { node (nH) {3} }
+                       }
+              child {  node (nE) {4}
+                         child { node (nI) {5} }
+                         child { node (nJ) {6} }
+                       }
+            }
+   child { node (nC) {7}
+              child { node (nF) {8}
+                         child { node (nK) {9}  }
+                         child { node (nL) {10} }
+                         child { node (nM) {11} }
+                       }
+              child {  node (nG) {12} }
+             };
+
+  \draw[->,blue,rounded corners,dashed,line width=0.7pt]
+    ($(nA) + (-0.4,0.2)$) --
+    ($(nB) +(-0.3,0.4)$) --
+    ($(nB) +(-0.6,0.0)$) --
+    ($(nD)  +(-0.4,0.3)$) --
+    ($(nD)  +(-0.5,0.0)$) --
+    ($(nH)  +(-0.5,0.0)$) --
+    ($(nH)  +(-0.4,-0.35)$) --
+    ($(nH)  +(0.0,-0.5)$) --
+    ($(nH)  +(0.4,-0.35)$) --
+    ($(nH)  +(0.5,0.0)$) --
+%    ($(nD)  +(0.45,-0.2)$) --
+    ($(nD)  +(0.45,0.0)$) --
+    ($(nB)  +(0.0,-0.4)$) --
+    ($(nE)  +(-0.45,0.0)$) --
+    ($(nI)  +(-0.45,0.0)$) --
+    ($(nI)  +(-0.35,-0.35)$) --
+    ($(nI)  +(0.0,-0.45)$) --
+    ($(nI)  +(0.35,-0.35)$) --
+    ($(nI)  +(0.4,0.0)$) --
+    ($(nE)  +(0.0,-0.4)$) --
+    ($(nJ)  +(-0.45,0.0)$) --
+    ($(nJ)  +(-0.35,-0.35)$) --
+    ($(nJ)  +(0.0,-0.45)$) --
+    ($(nJ)  +(0.35,-0.35)$) --
+    ($(nJ)  +(0.45,0.0)$) --
+    ($(nE)  +(0.4,0.2)$) --
+    ($(nB)  +(0.4,0.0)$) --
+    ($(nA)  +(0.0,-0.4)$) --
+    ($(nC)  +(-0.4,0.0)$) --
+%    ($(nF)  +(-0.6,0.0)$) --
+    ($(nK)  +(-0.5,0.1)$) --
+    ($(nK)  +(-0.4,-0.35)$) --
+    ($(nK)  +(0.0,-0.5)$) --
+    ($(nK)  +(0.4,-0.3)$) --
+    ($(nF)  +(-0.15,-0.4)$) --
+    ($(nL)  +(-0.5,0.0)$) --
+    ($(nL)  +(-0.4,-0.35)$) --
+    ($(nL)  +(0.0,-0.5)$) --
+    ($(nL)  +(0.4,-0.35)$) --
+    ($(nL)  +(0.5,0.0)$) --
+    ($(nF)  +(0.15,-0.4)$) --
+    ($(nM)  +(-0.5,0.0)$) --
+    ($(nM)  +(-0.4,-0.35)$) --
+    ($(nM)  +(0.0,-0.5)$) --
+    ($(nM)  +(0.4,-0.35)$) --
+    ($(nM)  +(0.5,0.2)$) --
+    ($(nF)  +(0.4,0.0)$) --
+    ($(nC)  +(0.0,-0.4)$) --
+    ($(nG)  +(-0.5,0.0)$) --
+    ($(nG)  +(-0.4,-0.35)$) --
+    ($(nG)  +(0.0,-0.5)$) --
+    ($(nG)  +(0.4,-0.35)$) --
+    ($(nG)  +(0.5,0.1)$) --
+    ($(nC) +(0.6,0.0)$) --
+    ($(nC) +(0.3,0.4)$) --
+    ($(nA) + (0.4,0.2)$);
+\end{tikzpicture}
+\end{center}
+
+\begin{oss}
+L'algoritmo attraversa un arco ogni volta che passa da un nodo ad un altro e passa da ogni arco esattamente due volte, si ha quindi che la DFS impiega $2n-1$ passi se $t \in T_n$. 
+\end{oss}
+\begin{definizione}{\textbf{(Discendente)}} Dato un albero $t$ sia esso finito o continuo e dati $v,w$ suoi nodi, si dice che $w$ è un discendente di $v$ se $v$ appartiene all'unico cammino dalla radice a $w$.
+\end{definizione}
+
+\begin{oss}\label{oss_compa}
+L'algoritmo DFS definisce l'ordinamento totale sui nodi di $t$ dato da:
+\begin{center}
+$a\prec b$ se la prima visita di $a$ è precedente alla prima visita di $b$.
+\end{center}
+Viceversa dato un ordinamento totale sui nodi di $t$ questo è indotto da un'ordine di figliazione tramite la DFS se vale la seguente proprietà di compatibilità:
+\begin{center}
+dati $v\prec w$ nodi di $t$, per ogni nodo $\tilde{v}$ \textit{discendente} di $v$ vale $\tilde{v}\prec w$.
+\end{center}
+\end{oss}
+Possiamo definire in modo naturale un ordine anche su un albero continuo:
+\begin{definizione}{\textbf{(Albero Continuo Ordinato)}}
+Sia $(S, \mu_0)$ un albero continuo, definiamo $(S, \mu_0, \prec)$ \textit{albero continuo ordinato} se $\prec$ è un'ordine totale sui suoi vertici e soddisfa la proprietà di compatibilità dell'osservazione \ref{oss_compa}.
+\end{definizione}
+
+\begin{definizione}{\textbf{(Funzione Contorno)}}
+Sia $t\in T_{n+1}$ un albero finito ordinato e $V$ l'insieme dei suoi nodi e sia $\tilde{f}:\{0, ...\, ,2n\}\longrightarrow V$ la funzione che associa ad $i$ il nodo incontrato alll'$i$-esimo passo della DFS, definiamo allora \textit{funzione contorno} la mappa ${f:[0, 2n]\longrightarrow[0,\infty)}$ per cui 
+$$f(i)=d(\mathcal{R}, \tilde{f}(i)) \quad \forall i \in \{0, ...\, ,2n\}$$
+e tale che interpoli linearmente i suoi valori sugli interi.
+\end{definizione}
+
+\begin{oss}
+Dati $t_1, t_2 \in \{0, ...\, ,2n$\} possiamo scrivere la distanza tra i due vertici $\tilde{f}(t_1)$ e $\tilde{f}(t_2)$ come
+\begin{equation} \label{distanza}
+d(\tilde{f}(t_1), \tilde{f}(t_2))=\left( f(t_1) - \min\limits_{t_1\leq t \leq t_2} f(t) \right) + \left( f(t_2) - \min\limits_{t_1\leq t \leq t_2} f(t) \right).
+\end{equation}
+\end{oss}
+Questa osservazione ci avvicina all'idea centrale di questo capitolo: pensare ai vertici di un albero continuo come etichettati da elementi di $[0,1]$ e aventi distanza data dalla \eqref{distanza} per un'opportuna funzione continua.
+
+\begin{definizione}{\textbf{(Funzione Profilo)}}\label{prof_func}
+Sia $f:[0,1]\longrightarrow[0,\infty)$, diciamo che $f$ è una \textit{funzione profilo} se valgono i seguenti:
+\begin{enumerate}
+\item $f(0)=f(1)=0$ e $\left|f^{-1}\{0\}\right|\leq 3$.
+
+\item $f$ è continua.
+
+\item L'insieme dei minimi locali stretti di $f$ è denso in [0,1].
+
+\item Se $t_1$ e $t_2$ sono punti di minimo locale stretto con $f(t_1)=f(t_2)$ allora 
+$$\inf\limits_{t_1<t<t_2} f(t) < f(t_1).$$
+
+\item L'insieme dei minimi locali unilaterali ha misura di Lebesgue zero, ovvero 
+$$\mathscr{L}\left\{t \in [0,1] \ \bigg| \ \exists \epsilon>0 \ f(t)= \min\limits_{t\leq s \leq t+\epsilon} f(s) \ \lor \ f(t)= \min\limits_{t-\epsilon \leq s \leq t} f(s) \right\}=0.$$
+
+\end{enumerate}
+\end{definizione}
+
+\begin{teo} \label{teo_funzio_profilo}
+Sia $f$ una funzione profilo, allora esiste una funzione $\tilde{f}:[0,1]\longrightarrow l_1$ tale che per ogni $t_1,t_2 \in [0,1]$ vale l'equazione \eqref{distanza} e che definisce il CRT $(\Ss_f, \mu_f)$ dato da 
+\begin{gather}
+\Ss_f=\left\{\tilde{f}(t)\ \bigg| \ 0\leq t \leq 1 \right\}, \nonumber \\
+\mu_f(A)=\mathscr{L}\left(\tilde{f}^{-1}(A)\right) \text{ dove } \mathscr{L} \text{ è la misura di Lebesgue}. \nonumber 
+\end{gather}
+\end{teo}
+
+\begin{proof}
+Fissato $\mathbf{t}=(t_1, ...\, ,t_n)$, $0<t_1<\, ... \, <t_n<1$ costruiamo un albero finito $\Rr_f(\mathbf{t})$ avente i vertici indicizzati da $\mathbf{t}$. Per $i=1, ... \, ,n-1$ sia
+\begin{center}
+ $b_i= \min\limits_{t_i\leq t\leq t_{i+1}} f(t)$,
+\end{center}
+costruiamo $\Rr_f(\mathbf{t})$\footnote{Per ora stiamo costruendo gli $\Rr_f(\mathbf{t})$ come alberi "astratti", ovvero nel senso della Definizione \ref{def_albero}. Nel seguito della dimostrazione li immergeremo in $l_1$.} ricorsivamente seguendo il seguente algoritmo:
+\begin{itemize}
+\item Scegliamo il primo arco di lunghezza $f(t_1)$ ed etichettiamo i suoi vertici con $\mathcal{R}$ e $t_1$.
+
+\item Se abbiamo aggiunto i vertici fino a $t_i$, partendo dal vertice con etichetta $t_i$ risaliamo seguendo l'unico cammino verso $\mathcal{R}$ per una lunghezza pari a $f(t_i)-b_i$ e da tale punto facciamo partire un nuovo arco di lunghezza $f(t_{i+1})-b_i$ ed etichettiamo il suo estremo appena aggiunto con $t_{i+1}$.
+\end{itemize}
+
+%\begin{oss}
+%Si può notare che se costruiamo $\Rr_f(\mathbf{t})$ scegliendo $\mathbf{t}$ aleatorio ottenuto permutando gli indici uniformemente allora la famiglia ottenuta è consistente. 
+%\end{oss}
+
+\begin{lemma}
+Sia $f$ una funzione profilo, allora esiste una funzione continua $\tilde{f}:[0,1]\longrightarrow l_1$ tale che $\forall t\in [0,1] \quad ||\tilde{f}(t)||=||f(t)||$ e per ogni $\mathbf{t}=(t_1, ...\, , t_n)$ definendo 
+$$ \Ss_f(\mathbf{t})= \bigcup\limits_{t\in \mathbf{t}} \,[[0,\tilde{f}(t)]]_{sp}$$
+abbiamo che $\Ss_f(\mathbf{t})$ è una rappresentazione insiemistica di $\Rr_f(\mathbf{t})$.
+\end{lemma}
+\begin{proof}
+Consideriamo una successione $(t_i)_{i\in \mathbb{N}}$ densa in $[0,1]$ e per ogni $k \in \mathbb{N}$ sia $\mathbf{t}_k$ il riordinamento crescente di $(t_1, ...\, , t_k)$ e costruiamo $\Rr_f(\mathbf{t}_k)$ come sopra. Rappresentiamo ora questi alberi in $l_1$ utilizzando la costruzione sequenziale del precedente capitolo. Si può notare che, poichè la nozione di rappresentazione insiemistica è preservata da una permutazione delle foglie eseguita prima della costruzione sequenziale, possiamo scegliere una sola volta la successione $(v_i) \subseteq l_1$ tale che $\bigcup\limits_{1\leq i\leq k}\, [[0, v_i]]$ sia una rappresentazione insiemistica di $\Rr_f(\mathbf{t}_k)$ per ogni $k\in \mathbb{N}$.\\
+\\
+Consideriamo le coppie $(t_i, v_i)$ indotte dalla costruzione sequenziale eseguita sugli $\Rr_f(\mathbf{t}_k)$ i cui vertici ricordiamo essere etichettati dai tempi nella successione $(t_i)$, definiamo $\tilde{f}(t_i)=v_i$ e poichè grazie alla costruzione sequenziale vale la \eqref{distanza} allora $\tilde{f}$ è continua su $(t_i)$ e per densità possiamo estenderla ad una funzione continua su tutto $[0,1]$.\\
+\\
+Per provare la tesi basta notare che nella definizione di rappresentazione insimistica la condizione \eqref{eq_rapp_l1} viene rispettata per vertici etichettati con elementi di $(t_i)$ e quindi anche per vertici con etichette in $[0,1]$ grazie alla continuità di $f$ ed $\tilde{f}$.
+\end{proof}
+
+Grazie a questo lemma possiamo ultimare la dimostrazione, ricordiamo che abbiamo definito
+\begin{equation}\label{esse_di_effe}
+\Ss_f=\bigcup\limits_{t\in[0,1]} \, [[0, \tilde{f}(t)]]_{sp}
+\end{equation} 
+e $\mu_f$ come il push-forward verso $l_1$ della misura di Lebesgue su $[0,1]$ tramite $\tilde{f}$.\\
+Dobbiamo provare che $(\Ss_f, \mu_f)$ rispetta la definizione \ref{def_CT} di continuum tree, vediamola punto per punto:
+\begin{enumerate}
+\item $0\in \Ss_f$ per definizione.
+
+\item Una definizione equivalente alla \eqref{esse_di_effe} si ottiene definendo $\Ss_f$ come la chiusura di $S_f$ dato da
+\begin{gather}
+S_f=\bigcup\limits_i \, [[0, \tilde{f}(t_i)]]_{sp}
+\end{gather}
+dove $(t_i)$ è la successione utilizzata per costruire $\tilde{f}$.\\
+A questo punto la dimostrazione di unicità del cammino è identica al punto $2$ della dimostrazione del teorema di rappresentabilità per campionamento \ref{rap_fin} sostituendo le $\tilde{f}(t_i)$ in luogo delle $L_i(\omega)$.
+
+\item Dimostriamo che $\Ss_f$ è binario. Il punto $\tilde{f}(s_2)$ è un branchpoint se e solo se $s_2$ è un punto di minimo stretto per $f$, in tal caso, grazie al punto $4$ della definizione \ref{prof_func}, esistono $s_1<s_2<s_3$ per cui valgono
+\begin{itemize}
+\item $f(s_1)=f(s_2)=f(s_3)$,
+
+\item $f(s)>f(s_1) \quad \forall s\in (s_1,s_2) \cup (s_2,s_3)$.
+\end{itemize} 
+Una formulazione analoga di questa proprietà non potrebbe valere con 4 punti distinti $s_1, \, s_2, \, s_3, \, s_4$  sempre per la proprietà $4$ nella definizione \ref{prof_func} di funzione profilo.
+
+\item Lo scheletro di $\Ss_f$ è dato dai punti $\tilde{f}(s_1) $ per cui valgono 
+\begin{itemize}
+\item $\exists s_2\neq s_1$ tale che $\tilde{f}(s_1)=\tilde{f}(s_2)$,
+
+\item $f(s)>f(s_1) \quad \forall s\in (s_1,s_2)$.
+\end{itemize}
+Ponendo $s_1<s_2$ senza perdita di generalità. Lo scheletro ha quindi misura $\mu_f$ zero in quanto contenuto nell'immagine tramite $\tilde{f}$ dell'insieme dei punti di minimo stretto unilaterale, avente misura nulla per l'ipotesi $5$ della definizione \ref{prof_func}. Dunque la misura è tutta concentrata sulle foglie.
+
+\item Sia $x$ nello scheletro di $\Ss_f$ allora, per come abbiamo costruito le $\Rr_f(\mathbf{t}_k)$, utilizzando le notazioni del punto precedente risulta che $x\in [[0, \tilde{f}(s)]]$ per ogni $s \in (s_1 ,s_2)$. Quindi l'insieme dei punti per cui vale quella proprietà ha misura almeno $s_2-s_1>0$.
+\end{enumerate}
+\end{proof}
+
+\begin{oss}
+Possiamo dotare $(\Ss_f, \mu_f)$ della struttura d'ordine in analogia con l'ordine indotto dalla DFS per gli alberi finiti impoenendo 
+$$\forall a,b\in \Ss_f \quad a\prec b \iff \tilde{f}^{-1}(a)<\tilde{f}^{-1}(b) \ \text{ definendo } \ \tilde{f}^{-1}(s):=\min \tilde{f}^{-1}\{s\}.$$
+\end{oss}
+
+\section{Rappresentabilità Funzionale}
+
+Indaghiamo ora delle condizioni sufficienti alla rappresentabilità funzionale di un albero continuo.
+
+\begin{definizione}{\textbf{(Leaf-dense)}}
+Sia $(\Ss, \mu_0, \prec)$ un albero continuo ordinato, definiamo
+$$\mu_x^+(\ \cdot\ )=\mu_0\left(\ \cdot \ \cap \left\{y \ | \ y\succ x\right\}\right)$$
+e analogamente $\mu_x^-$. Definiamo $(\Ss, \mu_0, \prec)$ \textit{leaf-dense} se per ogni $x$ foglia di $\Ss$ vale
+$$[[0,x]] \subseteq \mathrm{supp}\left(\mu_x^+\right) \cap \mathrm{supp} \left(\mu_x^-\right).$$
+\end{definizione}
+
+\begin{lemma}\label{lemma_order}
+Sia $\prec$ un ordinamento totale aleatorio\footnote{Considerando gli ordinamenti di $\mathbb{N}$ equipaggiati con la $\sigma$-algebra generata dagli insiemi del tipo ${\mathrm{Ord_{\beta}}=\left\{ \sigma \in \mathbb{N}^{\mathbb{N}} \ \big| \ \sigma(\beta(1)) \prec \dots \prec \sigma(\beta(k))\right\}}$ per $\beta\in S_k$.} su $\mathbb{N}$ tale che per ogni $k\in \mathbb{N}$ tutti gli ordinamenti su 
+$\left(1, \, \dots \, ,k\right)$ siano equiprobabili. Allora esiste una successione di v.a. i.i.d. $\left(U_i\right)$ distribuite uniformemente su $(0,1)$ per cui vale
+$$i\prec j \iff U_i>U_j.$$
+\end{lemma}
+
+\begin{proof}
+Sia $U_{n,i}$ la successione, crescente in $n$, della posizione di $i$ nell'ordinamento indotto da $\prec$ su $(1, 	, \dots \, ,n)$. Allora definendo
+$$U_i:=\lim\limits_{n\to\infty} n^{-1}U_{n,i}$$
+otteniamo la successione $(U_i)$ con la proprietà voluta.
+\end{proof}
+
+\begin{lemma}\label{lem_ordered_ineq}
+Siano $v_1\prec v_2 \prec v_3$ vertici di un albero ordinato, finito o continuo, allora vale:
+$$d\left(v_1, b(v_1,v_2)\right)\leq d\left(v_1, b(v_1,v_3)\right).$$ 
+\end{lemma}
+\begin{proof}
+\'E sufficiente eseguire la dimostrazione nel caso finito in quanto l'ordine e la distanza sono preservate prendendo il sottografo ridotto finito ottenuto dall'insieme di vertici $\left\{v_1, v_2, v_3\right\}$. Per il caso finito è sufficiente notare che se per assurdo valesse 
+$$d\left(v_1, b(v_1,v_3)\right)<d\left(v_1, b(v_1,v_2)\right)$$
+allora dovremmo avere 
+$$b(v_1,v_3)\in \ ]]b(v_1,v_2), v_1]] \implies v_3\prec v_2, \, \text{ assurdo.}$$
+\end{proof}
+
+\begin{teo}{\textbf{(Rappresentabilità Funzionale)}}\label{teo_rapp_funzio}
+Sia $\left(\Rr(k)\right)_{k\in\mathbb{N}}$ una famiglia consistente di $k$-alberi propri ordinati rappresentata da un CRT ordinato $\left(\Ss, \mu, \prec\right)$. Se $\left(\Ss, \mu, \prec\right)$ è compatto e leaf-dense, allora esiste una funzione profilo aleatoria\footnote{Rispetto allo spazio $C[0,1]$ dotato della norma uniforme e la $\sigma$-algebra di Borel da essa indotta.} $f$ tale che $(\Ss_f, \mu_f)$ rappresenta la famiglia $(\Rr(k))$.
+\end{teo}
+
+\begin{proof}
+Sia una successione di v.a. scambiabili $\left(Z_i\right)$ diretta da $\mu$, allora per ogni $k\in\mathbb{N} $ 
+\begin{center}
+ $r\left(\Ss, \left\{Z_1, \, \dots \, ,Z_k\right\}\right)$ è una rappresentazione insiemistica di $\Rr(k)$.
+\end{center}
+ Inoltre la struttura d'ordine su $\Rr(k)$ ne induce una su $\left(Z_1, \,  \dots \, ,Z_k \right)$ e quindi una su $\left(1, \, \dots \, ,k\right)$. Per consistenza tutti gli ordinamenti su $(1, \, \dots \, ,k)$ sono equiprobabili quindi per il Lemma \ref{lemma_order} esiste una successione di v.a. i.i.d. $(U_i)$ distribuite uniformemente su $(0,1)$ per cui
+$$ Z_i\prec Z_j \iff U_i<U_j.$$
+Fissiamo ora una realizzazione di $\left(\Ss, \mu\right)$ e delle $(Z_i)$ e definiamo $\tilde{f}(U_i)=Z_i$. Vogliamo mostrare che $\tilde{f}$ si estende, per densità degli $(U_i)$ nel supporto della loro legge, ad una funzione continua a valori in $l_1$.
+Supponiamo per assurdo che non esista
+$$ \lim\limits_{U_i \downarrow t_0} \tilde{f}(U_i)=\lim\limits_{U_i \downarrow t_0} Z_i,$$
+Grazie alla compattezza di $\Ss$ possiamo scegliere 2 successioni $\left(i(n)\right)$ e $\left(j(n)\right)$ tali che
+$$ i(m)>j(m+1)>i(m)>j(m+1)\quad \forall m\in\mathbb{N} $$
+$$ U_{i(m)} \downarrow t_0, \quad  U_{j(m)} \downarrow t_0, \quad Z_{i(m)}\rightarrow z_1, \quad Z_{j(m)}\rightarrow z_2.$$
+Da $Z_{i(m)}\prec Z_{j(m)}\prec Z_{i(m+1)}\prec$ e dal Lemma \ref{lem_ordered_ineq} segue che 
+$$\norm{Z_{i(m+1)}-b\left(Z_{i(m+1)}, Z_{j(m)}\right)}\leq \norm{Z_{i(m+1)}-b\left(Z_{i(m+1)}, Z_{i(m)}\right)}\leq$$
+$$\leq \norm{Z_{i(m+1)} - Z_{i(m)}}\rightarrow 0$$
+Dunque $b\left(Z_{i(m+1)}, Z_{j(m)}\right)\rightarrow z_1$ che implica $b(z_1,z_2)=z_1$. La stessa dimostrazione scambiando $i$ e $j$ ci da $b(z_1,z_2)=z_2$ da cui $z_1=z_2$. Ripetendo il ragionamento per 
+$$U_{i(m)}\uparrow t_0 \text{ e } U_{i(m)}\uparrow t_0$$
+otteniamo che $\tilde{f}$ ammette limiti destri e sinistri.
+Mosatriamo che per ogni $t_0\in (0,1)$ i limiti destri e sinistri coincidono. Siano
+$$z_1=\lim\limits_{t\uparrow t_0} \tilde{f}(t), \quad z_2=\lim\limits_{t\downarrow t_0} \tilde{f}(t).$$
+Ricordiamo l'osservazione \ref{oss_branchpoint}: se la rappresentazione di un albero è speciale e $x,y\in l_1$ sono suoi vertici allora vale 
+$$(b(x,y))_i=\min\{x_i, y_i\}.$$
+Dunque $\norm{b(z_1,z_2)}\leq \min\left(\norm{z_1}, \norm{z_2}\right)$, e vale l'implicazione
+$$\norm{b(z_1,z_2)}=\norm{z_1}=\norm{z_2} \implies b(z_1,z_2)=z_1=z_2.$$
+Supponiamo che $\tilde{f}$ non sia continua in $t_0$, allora senza perdita di generalità abbiamo $\norm{b(z_1,z_2)}<\norm{z_2}$ quindi esiste $a<1$ tale che
+\begin{equation}\label{eq_a}
+\norm{b(z_1,z_2)}< a\norm{z_2}.
+\end{equation}
+Grazie alla proprietà leaf-dense di $\Ss$ e alla densità delle $(Z_i)$ nel supporto di $\mu$, per ogni $Z_i$ con $U_i>t_0$ esiste $Z_{j(i)}$ con $U_{j(i)}<U_i$ tale che
+\begin{gather}
+\norm{Z_{j(i)}-b\left(Z_{j(i)}, Z_i\right)}\leq 2^{-i}, \label{eq_1} \\
+\norm{b\left(Z_{j(i)}, Z_i\right)} \in \left(a\norm{Z_i}-2^{-i}, a\norm{Z_i}+2^{-i}\right).\label{eq_2}
+\end{gather}
+Consideriamo ora una successione $U_i$, le disuguaglianze \eqref{eq_1} e \eqref{eq_2} implicano ${||Z_{j(i)}||\rightarrow a\norm{z_2}}$. Se avessimo $U_{j(i)}\downarrow t_0$ allora $||Z_{j(i)}||\rightarrow \norm{z_2}$, assurdo.
+Se avessimo $U_{j(i)}\uparrow t_0$ allora si avrebbe $||Z_{j(i)}||\to \norm{b(z_1,z_2)}$, in contraddizione con la \eqref{eq_a}. Lo stesso vale sostituendo $j(i)$ con una sottosuccessione, dunque deve valere $\limsup U_{j(i)}<t_0$.
+Dunque possiamo trovare una successione $k(i)$ tale che $U_{j(i)}<U_{k(i)}\uparrow t_0$ e dal Lemma \ref{lem_ordered_ineq} segue che
+$$ \norm{Z_i - b\left(Z_i, Z_{k(i)}\right)}\leq \norm{Z_i - b\left(Z_i, Z_{j(i)}\right)}.$$
+Utilizzando ancora l'osservazione \ref{oss_branchpoint} otteniamo
+$$\norm{b\left(Z_i,Z_{k(i)}\right)}\geq \norm{b\left(Z_i,Z_{j(i)}\right)}$$
+dove LHS converge a $||b(z_1,z_2)||$, mentre RHS converge ad $a ||z_2||$. Dunque $\tilde{f}$ deve essere continua.\\
+Definiamo ora $f:[0,1]\longrightarrow[0,\infty)$ come
+$$f(t)=\norm{\tilde{f}(t)}.$$
+Vogliamo mostrare che $f$ è una funzione profilo e rappresenta $(\Ss,\mu)$. La verifica che sia una funzione profilo sono una conseguenza della costruzione di $f$ a partire da un CRT compatto e leaf-tight. Passiamo alla rappresentazione funzionale, verifichiamo che vale la \eqref{distanza}, ovvero:
+\begin{equation}\label{distanza_2}
+\norm{\tilde{f}(t_1)-\tilde{f}(t_2)}=\left(\norm{\tilde{f}(t_1)} - \min\limits_{t_1\leq t\leq t_2} \norm{\tilde{f}(t)}\right) +  \left(\norm{\tilde{f}(t_2)}- \min\limits_{t_1\leq t\leq t_2}\norm{\tilde{f}(t)}\right).
+\end{equation}
+Siano $U_i<U_k<U_j$ allora $||Z_k||\geq ||b(Z_i,Z_j)||$ e quindi 
+\begin{gather}
+\norm{\tilde{f}(U_i)-\tilde{f}(U_j)}=\norm{Z_i-Z_j}\geq \norm{Z_i-b\left(Z_i, Z_j)\right)}+\norm{Z_j - b\left(Z_i, Z_j)\right)}\geq \nonumber \\
+\geq \left(\norm{Z_i}-\norm{Z_k}\right) + \left(\norm{Z_i}-\norm{Z_k}\right). \nonumber
+\end{gather}
+Che, per densità degli $(U_i)$ nel supporto della loro legge ci dimostra il $\geq$ nella \eqref{distanza_2}. Ci rimane da mostrare che $\exists t\in [t_1,t_2]$ tale che $\tilde{f}(t)=b(\tilde{f}(t_1), \tilde{f}(t_2))$. Per continuità la mappa $t\longmapsto \tilde{f}(t)$ percorre l'unico cammino in $\Ss$ tra $t_1$ e $t_2$, dovrà quindi passare per $b(\tilde{f}(t_1), \tilde{f}(t_2))$. Mostriamo che, definendo $(\Ss_f, \mu_f)$ come nel Teorema \ref{teo_funzio_profilo}, questo coincide con $(\Ss,\mu)$. Intanto abbiamo che $\mu_f=\mu$ in quanto $\mu$ è il limite delle distribuzoni empiriche di una successione distribuita come $Z_i$, e $\mu_f$ è il limite dellla distribuzione empirica delle $\tilde{f}(U_i)$. Dalla proprietà di leaf-dense segue che devono coincidere anche $\Ss_f=\mathrm{supp}(\mu_f)$ e $\Ss=\mathrm{supp}(\mu)$.
+
+\end{proof}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{comment}
+In quanto segue consideriamo una successione di alberi\footnote{nel senso della Definizione \ref{def_albero}.} aleatori $\Tt_n$ e per ogni $n$ un riordinamento aleatorio uniforme $\left(V_{n,1}, \, \dots \, ,V_{n,n}\right)$ dei vertici di $\Tt_n$.
+
+\begin{teo}\label{teo_conv_measure_repre}
+Supponiamo che per ogni $k\in \mathbb{N} \quad r\left(\Tt_n, \left\{V_{n,1}, \, \dots \, ,V_{n,k}\right\}\right)\xrightarrow{d}\Rr(k)$ dove $(\Rr(k))$ è una famiglia di $k$-alberi propri. Allora $(\Rr(k))$ è automaticamente consistente, supponiamo che sia anche leaf-tight. Sia $(\Ss, \mu)$ il CRT rappresentante $(\Rr(k))$, allora per ogni $n$ esiste una rappresentazione in misura $\mu_n$ di $\Tt_n$ tale che $\mu_n \xrightarrow{d}\mu$.
+\end{teo}
+
+\begin{prop}{\textbf{(Porposizione misteriosa->corollario 19 articolo)}}
+Utilizziamo le stesse ipotesi e notazione del teorema \ref{teo_conv_measure_repre} e definiamo
+$$\Delta(n,k)=\max\limits_{v\in\Tt_n} \ \min\limits_{w\in r\left(\Tt_n, V_{n,1}, \, \dots \, ,V_{n,k}\right)} d(v,w).$$
+Se vale
+\begin{equation} \label{eq_delta}
+\lim\limits_k \limsup_n P(\Delta(n,k)>\epsilon)=0, \quad \forall \epsilon>0
+\end{equation}
+allora $\Ss_n\xrightarrow{d}\Ss$\footnote{Dove si intende la convergenza in distribuzione sullo spazio dei chiusi di $l_1$ con la metrica di Housedorff.}.
+\end{prop}
+\end{comment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Enunciamo il seguente risultato, dimostrato in \cite{Ald3}, che afferma l'equivalenza tra la convergenza dei campionamenti finiti e le funzioni profilo per una successione di alberi aleatori.
+
+\begin{teo} \label{teo_equiv_contour_finiteSampling}
+Sia $(\Rr(k))$ una famiglia di $k$-alberi propri aleatori che soddisfa le ipotesi del Teorema di rappresentabilità funzionale \ref{teo_rapp_funzio}. Sia ${f:[0,1]\longrightarrow [0,\infty)}$ la funzione profilo aleatoria per cui $(\Ss_f, \mu_f)$ rappresenta $\left(\Rr(k)\right)$. Siano $(\Tt_n)$ alberi ordinati aleatori aventi $n$ vertici e ${f_n:[0,1]\longrightarrow [0,\infty)}$ le loro funzioni contorno (aleatorie). Definiamo $\bar{f}_n:[0,1]\longrightarrow[0,\infty)$ come l'interpolazione lineare dei valori
+\begin{gather}
+\bar{f}_n(0)=\bar{f}_n(1)=0, \nonumber \\
+\bar{f}_n\left(\frac{i}{2n}\right)=f_n(i), \quad \text{ per } \quad 1\leq i\leq 2n-1. \nonumber
+\end{gather}
+Risultano allora equivalenti i seguenti:
+\begin{enumerate}
+\item $\bar{f}_n\xrightarrow{d}f $\footnote{Nel senso della convergenza in distribuzione su $C[0,1]$.}.
+
+\item La famiglia $\left(\Tt_n\right)$ verifica 
+$$\lim\limits_k \limsup_n P(\Delta(n,k)>\epsilon)=0, \quad \forall \epsilon>0,$$
+$$\Delta(n,k)=\max\limits_{v\in\Tt_n} \ \min\limits_{w\in r\left(\Tt_n, V_{n,1}, \, \dots \, ,V_{n,k}\right)} d(v,w),$$
+
+
+e per ogni $k\geq 1 $ vale
+$$r\left(\Tt_n, \left(V_{n,1}, \, \dots \, ,V_{n,k}\right)\right)\xrightarrow{d}\Rr(k),$$
+intesi come alberi ordinati.
+\end{enumerate}
+\end{teo}
+
+
+
+
+\chapter{Il Brownian Continuum Random Tree}
+\section{Campionamenti Finiti}
+
+\begin{definizione}{\textbf{(Morfismo di Alberi)}}
+Siano $t_1=(V_1, E_1)$ e $t_2=(V_2, E_2)$ alberi nel senso della teoria dei grafi\footnote{Ovvero insiemi di vertici dotati di una relazione binaria simmetrica, detti grafi non diretti, che siano connessi ed aciclici.} aventi radici $\mathcal{R}_1$ ed $\mathcal{R}_2$. Diciamo che $\phi: V_1 \longrightarrow V_2$ è un \textit{morfismo di alberi} se vale
+$$\forall a,b\in V_1 \quad (a,b)\in E_1 \implies \left(\phi(a),\phi(b)\right)\in E_2.$$
+Se $\phi$ è bigettivo e anche $\phi^{-1}$ è un morfismo di grafi, allora $\phi$ è detto \textit{isomorfismo di alberi}.
+\end{definizione}
+\bigskip
+
+Sia $T_{2k}^*$ l'insieme dei $k$-alberi propri la cui radice ha grado 1, tali alberi hanno quindi $2k$ nodi e $2k-1$ archi e vale la seguente:
+
+\begin{prop}
+$\left| T_{2k}^* \right| = \stackrel{k-1}{\prod\limits_{i=1}} (2i-1)$.
+\end{prop}
+\begin{proof}
+Mostriamo tale proposizione per induzione: Per $k=2$ è vera in quanto l'albero ha un solo nodo interno oltre alla radice, è dunque univocamente determinato.\\
+%DISEGNOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+Per il passo induttivo notiamo che ogni albero di $T_{2(k+1)}^*$ si può ottenere scegliendo qualche $t\in T_{2k}^*$ ed attaccando un nuovo arco ad un arco di $t$ definendo così una nuova foglia ed un nuovo nodo interno. Per convincersi che gli alberi ottenuti in questo modo sono tutti non isomorfi è sufficiente notare che se per assurdo lo fossero, restringendo il morfismo ai nodi presenti al passo precedente si otterrebbero alberi isomorfi.
+\end{proof} %DISEGNOOOOOOOOOOOOOOOOO
+
+Vediamo ora lo spazio degli alberi considerando le lunghezze dei loro lati, similmente alla \ref{def_albero} questo risulta essere
+$$T_{2k}^* \times \mathbb{R}_+^{2k-1}.$$
+Vogliamo definire una densità di probabilità su tale spazio in modo da rendere i suoi alberi aleatori e poterli così impiegare per rappresentare un CRT tramite la rappresentazione per campionamento del Teorema \ref{rap_fin}.
+\begin{prop}\label{prop_dens}
+Sia $s= \stackrel{2k-1}{\sum\limits_{i=1}}x_i$ allora 
+\begin{equation}\label{densi_eq}
+f(t, x_1, ...\, ,x_{2k-1})=s \, \exp\left(-\frac{s^2}{2}\right)
+\end{equation}
+è una densità su ${T_{2k}^* \times \mathbb{R}_+^{2k-1}}$.
+\end{prop}
+\begin{proof}
+Dato che l'espressione della densità non dipende dalla "forma" dell'albero mostrare che il suo integrale su tutto lo spazio vale 1 è equivalente a mostrare che, fissato un albero $t$ l'integrale su tutto $\mathbb{R}_+^{2k-1}$ vale $\stackrel{k-1}{\prod\limits_{i=1}} (2i-1)^{-1}$. Operiamo il seguente cambio di variabili lineare e avente determinante 1:
+
+\begin{gather}
+x_i \longrightarrow y_i =\stackrel{i}{\sum\limits_{j=1}}x_j \quad \forall i=1,...\, ,2k-1. \nonumber 
+\end{gather}
+rinominando per comodità $y_{2k-1}$ con $s$ si ottiene che l'integrale diventa
+\begin{gather}
+\int_0^\infty \left(\ \idotsint\limits_{y_1< \dots <y_{2k-2}<s} s \, \exp\left(\frac{-s^2}{2}\right) \,dy_1 \dots dy_{2k-2}\right)\,ds= \nonumber \\
+= \int_0^\infty \frac{s^{2k-2}}{(2k-2)!} s \, \exp\left(\frac{-s^2}{2}\right).\nonumber
+\end{gather}
+Svolgendo l'integrale per parti $k$ volte si elidono tutti i fattori pari del fattoriale ottenendo quanto voluto.
+\end{proof}
+Vediamo che la famiglia definita da questa densità è consistente, per farlo riporteremo una costruzione sequenziale proposta da Aldous in \cite{Ald1} che definisce un CRT\footnote{Che vedremo coinciderà con quello che definiremo \textit{Brownian CRT}.} i cui sottoalberi ottenuti per campionamento aleatorio hanno esattamente la distribuzione definita da $f$, dandoci in automatico la consistenza.\\
+\\
+\textbf{Costruzione di Poisson}\\
+Siano $(S_1, \, S_2, \dots)$ i tempi di arrivo di un processo di Poisson non omogeneo avente $\lambda(t)=t$. Questo significa che le v.a.r. $(S_i)$ sono definite dalla densità
+$$f_{S_i}(s)= \lambda(s) \, \exp\left(-\int_{S_{i-1}}^s \lambda(t) \, dt\right)=s\, \exp\left(-\frac{1}{2} \left(s^2-C_{i-1}^2\right)\right)$$
+Spezziamo l'intervallo $[0,\infty)$ negli intervalli $[0,S_1), \, \dots \, ,[S_n, S_{n+1}),\, \dots$ e costruiamo la nostra successione $(\Rr(k))_k$ di alberi non immersi attraverso il seguente schema ricorsivo:
+\begin{itemize}
+\item Sia $\Rr(1)$ avente un solo arco di lunghezza $S_1$.
+
+\item Dato $\Rr(k)$ costruiamo $\Rr(k+1)$ attaccando un arco di lunghezza $S_{k+1}-S_k$ in un punto di $\Rr(k)$ scelto con probabilità uniforme sullo scheletro di $\Rr(k)$.
+
+\end{itemize} 
+
+\begin{prop}
+La famiglia ottenuta con la costruzione di Poisson ha distribuizone definita dalla densità nella \eqref{densi_eq}. 
+\end{prop}
+\begin{proof}
+Dimostramolo per induzione su $k$: per il caso $k=1$ abbiamo che la distribuizone del primo intertempo è data da $f(s)=s\, \exp\left(\frac{s^2}{2}\right)$ che è la medesima della proposizione \ref{prop_dens}.\\
+%DISEGNO PER IL PASSO INDUTTIVOOOOOOOOOOOOOO
+Passo induttivo: sia $\Rr(k+1)=(t^*,x_1^*, \, \dots \,, x_{2k+1}^*)$ e $\Rr(k)=(t, x_1, \, \dots \, ,x_{2k-1})$ il suo sottoalbero ridotto rispetto alle prima $k$ foglie. Allora $t^*$ è ottenuto da $t$ aggiungendo aggiungendo un nuovo arco di lunghezza $x_{j_3}^*$ che spezza a in due parti un arco $t$ di lunghezza $x_j$ di $t$ in due archi di lunghezza $x_{j_1}^*$ e $x_{j_2}^*$ con $x_{j_1}^*+x_{j_2}^*=x_j$. Otteniamo quindi
+$$f(t^*,x_1^*, \, \dots \,, x_{2k+1}^*)=\frac{s^*}{s} \, \exp\left(-\frac{1}{2}\left(s^{*^2}-s^2\right)\right)f(t, x_1, \, \dots \, ,x_{2k-1}),$$
+$$\text{con} \quad s=\stackrel{2k-1}{\sum\limits_{i=1}} x_i \quad \text{e} \quad s^*=\stackrel{2k+1}{\sum\limits_{i=1}}x^*_i.$$
+Il fattore $\frac{1}{s}$ è dovuto al fatto che la distribuzione è uniforme mentre $s^* \exp\left(-\frac{1}{2}\left(s^{*^2}-s^2\right)\right)$ è la densità associata al $k+1$-esimo intertempo di Poisson condizionatamente al valore della somma dei primi $k$ fissato ad $s$. Dall'ipotesi induttiva segue la tesi.
+\end{proof}
+\begin{oss}
+La successione $(\Rr(k))_k$ definita dalla costruzione di Poisson è leaf-tight, infatti i punti in cui vengono "attaccati" i rami sono scelti con distribuzione uniforme e le lunghezze di questi rami convergono a zero, dunque esiste q.c. una successione di foglie che tende alla prima.
+\end{oss}
+\'E ora possibile dare la seguente definizione:
+\begin{definizione}{\textbf{(Brownian CRT)}}\label{def_bcrt}
+Si definisce \textit{brownian continuum random tree} un CRT rappresentato nel senso della \ref{fin_thm} dalla successione definita dalla costruzione di Poisson.
+\end{definizione}
+\begin{oss}
+Se vogliamo considerare il brownian continuum tree come ordinato è sufficiente costruire la famiglia $(\Rr(k))_k$ come una famiglia consistente di alberi aleatori ordinati equidistribuendoli rispetto all'ordine, ovvero modificando la densità nella proposizione \ref{prop_dens} rendendola
+$$f(t, x_1, ...\, ,x_{2k-1})=2^{-k+1}s \exp\left(\frac{-s^2}{2}\right), \quad \text{con} \quad s=\stackrel{2k-1}{\sum\limits_{i=1}}x_i.$$
+Il fattore $2^{-k+1}$ è dato dal calcolo combinatorico di tutti i possibili ordini di figliazione in un $k$-albero proprio.
+\end{oss}
+
+\section{Alberi Galton-Watson}
+Un modello di albero aleatorio molto diffuso nelle applicazioni è il così detto albero Galton-Watson. Intuitivamente si tratta dell'albero aleatorio rappresentante la distribuzione degli alberi genealogici, assumendo che la distribuzione del numero di figli fatti da ciascun individuo sia indipendente dall'individuo scelto. Ne daremo ora una nozione formale.
+
+\begin{definizione}{\textbf{(Altezza)}}
+Dato un albero $t\in T_n \times \mathbb{R}_+^{n-1}$, sia $\mathcal{R}$ la sua radice e $v$ un vertice, definiamo \textit{altezza} di $v$ la sua distanza dalla radice $d(\mathcal{R}, v)$.
+\end{definizione}
+
+\begin{definizione}{\textbf{(Distribuzione Subcritica)}}
+Sia $\mu$ una distribuzione di probabilità su $\mathbb{N}$, definiamo $\mu$ \textit{subritica} se vale
+$$\sum\limits_{k\geq 0} k \mu(k) \leq 1.$$ 
+\end{definizione}
+
+Consideriamo una famiglia a due indici di v.a. i.i.d. $(g_{(i,j)})_{i,j\in\mathbb{N}}$ a valori in $\mathbb{N}$ e aventi legge subcritica $\mu$. Fissata una realizzazione $(g_{(i,j)}(\omega))$ costruiamo un albero attraverso il segunete schema iterativo. \\
+\\
+\textbf{Costruzione dell'albero Galton-Watson}\\
+Denoteremo l'albero in costruzione con $t\in(V,E) \times \mathbb{R}^{n-1}$ dove $V$ è l'insieme dei vertici (o nodi) ed $E$ quello degli archi. Procediamo con l'algoritmo:
+\begin{itemize}
+\item Aggiungiamo la radice $\mathcal{R}$ a $V$.
+
+\item Per ogni $k\in\mathbb{N}$ siano $v_1, \, \dots \, ,v_n$ i nodi ad altezza $k$. Per ogni $i\in \{1, \, \dots \, ,n\}$ aggiungiamo $g_{(i,k)}(\omega)$ nodi a $V$ e altrettanti archi ad $E$ che connettono i nuovi nodi al nodo $v_i$, abbiamo così aggiunto $g_{(i,k)}(\omega)$ "figli" di $v_i$.
+\end{itemize}
+
+In questo modo abbiamo costruito un albero $\Tt(\omega)$ che a priori vive nello spazio 
+$${\bigsqcup_{n>0} T_n \times \mathbb{R}_+^{n-1}}$$ considerato con la topologia generata dall'unione delle topologie\footnote{Definite come nell'osservazione \ref{oss_topology}.} dei $T_n \times \mathbb{R}_+^{n-1}$ e la relativa $\sigma$-algebra di Borel. Grazie alla costruzione fatta la dipendenza da $\omega$ è misurabile \footnote{La misurabilità segue da quella delle $g_{(i,j)}$, questo perchè ogni albero ordinato si ottiene fissando il valore di alcune $g_{(i,j)}$ e lasciando libere di assumere valori su tutto $\mathbb{N}$ le altre.}, si ha quindi che $\Tt_{\mu}:=\Tt$ è un albero aleatorio ed è detto \textit{albero Galton-Watson} con distribuzione di discendenza $\mu$. 
+
+\begin{oss}
+Il fatto che la distribuzione $\mu$ sia subcritica ci garantisce che quasi certamente l'algoritmo precedente termini e quindi che $\Tt_{\mu}$ sia finito.
+\end{oss}
+\bigskip
+Indichiamo con $|V|$ il numero di vertici di un albero Galton-Watson. Vogliamo studiare il limite di scala di questi alberi per $|V|\rightarrow\infty$, occorre quindi studiarne la versione condizionata al numero di vertici fissato ad $n$ e poi studiarne il limite in distribuzione per $n\rightarrow\infty$.
+
+\begin{notazione}
+Indichiamo per tutto il capitolo con $\Tt_n$ l'albero aleatorio ottenuto dall'albero Galton-Watson $\Tt_{\mu}$ delle precedente costruzione condizionandolo ad avere esattamente $n$ vertci. La famiglia $(\Tt_n)_{n\in\mathbb{N}}$ è detta famiglia di \textit{alberi Galton-Watson condizionati}\footnote{Questi alberi sono noti in letteratura come \textit{Galton-Watson conditioned branching process} (Galton-Watson CBP).} con distribuzione di discendenza $\mu$.
+\end{notazione}
+
+
+\section{Convergenza}
+Definiamo per prima cosa l'oggetto limite dei teoremi di convergenza che proveremo in questa sezione.
+
+\begin{definizione}{\textbf{(Escursione Browniana)}}
+Si definisce \textit{escursione browniana} e si denota con $\beta$ la funzione aleatoria a valori in $C[0,1]$ la cui legge è data da
+\begin{gather}
+\left\{\beta(t) \ | \ 0\leq t\leq 1\right\} \stackrel{d}{=} \left\{\frac{\abs{B((1-t)\tau_- + t\tau_+)}}{\sqrt{\tau_+ -\tau_-}} \ \bigg| \ 0\leq t\leq 1 \right\} \quad \text{ con } \nonumber \\
+\tau_-:=\max\left\{t\in[0,1) \ \bigg| \ B(t)=0\right\}, \quad \tau_+:=\min-\left\{t\in(1,\infty) \ \bigg| \ B(t)=0\right\}. \nonumber
+\end{gather}
+\end{definizione}
+
+Il principale risultato di questo capitolo afferma che, sotto opportune ipotesi, le funzioni contorno di alberi Galton-Watson, riscalate in modo parabolico, convergono in legge all'escursione Browniana, formalmente:
+
+%Aldo lo enuncia per distribuzioni critiche.
+\begin{teo} \label{teo_conv_gener}
+Sia $\left(\Tt_n\right)_n$ una famiglia di alberi Galton-Watson condizionati avente distribuzione di discendenza subcritica $\xi$. Supponiamo che valgano le seguenti:
+\begin{gather}
+0<\mathrm{Var}[\xi]=\sigma^2<\infty, \nonumber \\
+\mathrm{M.C.D.}\left\{j\in\mathbb{N} \ | \ P\left(\xi=j\right)>0\right\}=1. \nonumber
+\end{gather}
+Riscaliamo gli archi di $\Tt_n$ di un fattore $\sigma n^{-\frac{1}{2}}$. Per ogni $n\in \mathbb{N}$ sia ${f_n:[0,2n-2]\longrightarrow [0,\infty)}$ la funzione contorno per $\Tt_n$ riscalato. Definiamo $\bar{f}_n:[0,1]\longrightarrow [0,\infty)$ come
+\begin{gather}
+\bar{f}_n\left(\frac{x}{2n-2}\right)=f_n(x), \quad \text{ per ogni }  x\in[0,2n-2]. \nonumber
+\end{gather}
+Allora $\bar{f}_n\xrightarrow{d} \beta$ su $C[0,1]$.
+\end{teo}
+
+Questo risultato è stato dimostrato, nel caso in cui la distribuzione sulle relizzazioni di $\Tt_n$ sia uniforme, con le stesse metodologie utilizzate nel Capitolo 2, ovvero provando la tightness delle funzioni contorno riscalate e dimostrandone la convergenza dei marginali finito dimensionali, vediamone nel dettaglio la formulazione.
+
+\begin{definizione}{\textbf{(Passeggiata Aleatoria Semplice)}}
+Data la successione di v.a. i.i.d. $\left(\xi_i\right)_{i\in\mathbb{N}}$ tali che 
+$$P\left(\xi_i=1\right)=P\left(\xi_i=-1\right)=\frac{1}{2},$$
+si definisce \textit{passeggiata aleatoria semplice} il processo
+$$S_n=\stackrel{n}{\sum\limits_{i=1}}\xi_i.$$
+\end{definizione}
+
+\begin{definizione}{\textbf{(Escursione Aleatoria Semplice)}}
+Sia $S_n$ una passeggiata aleatoria semplice, definiamo 
+$$T_S:=\min\left\{n>0 \ | \ S_n=0\right\}$$
+la v.a. che definisce il primo ritorno di $S_n$ allo zero.
+Definiamo \textit{escursione aleatoria semplice} di durata $n$ il vettore aleatorio $(n+1)$-dimensionale $(E_i)_{i\leq n}$ la cui distribuzione è data da
+$$P\left(E_i=j\right)= P\left(S_i=j \ | \ T_S=n\right) \quad \text{ per } i=0, \, \dots \, ,n.$$ 
+\end{definizione}
+
+\begin{teo} \label{teo_srw_1}
+Consideriamo l'albero Galton-Watson condizionato $\Tt_n$ avente distribuzione di discendenza subcritica $\mu$, con
+$$\mu(k)=\left(\frac{1}{2}\right)^{k+1} \quad \text{ per ogni } k\in\mathbb{N}.$$
+Allora la sua funzione contorno è distribuita come l'interpolazione lineare di un'escursione aleatoria semplice di durata $n$.
+\end{teo}
+\begin{proof}
+\'E sufficiente mostrare che il vettore di $2n-1$ interi $\left(h_0,  \, \dots \, ,h_{2n-2}\right)$, dato dalle altezze dei nodi incontrati nella DFS di $\Tt_n$ è distribuito come $\left(E_0,  \, \dots \, ,E_{2n-2}\right)$, dove $E$ è un'escursione aleatoria semplice. Da ciò segue l'equidistribuzione delle loro interpolazioni lineari. Possiamo considerare la distribuzione di $(h_i)_{i\leq 2n-2}$ come quella di $(\tilde{h}_i)_{i\leq 2n-2}$ condizionata dall'evento $\min\left\{j>0 \ | \ \tilde{h}_j=0\right\}=2n-2$, dove $(\tilde{h}_i)_{i\in \mathbb{N}}$ è la distribuzione delle altezze dei nodi incontrati durante la DFS\footnote{Scegliendo $\tilde{h}_i=0$ per $i$ che supera il numero di terazioni totali dell'algoritmo.} di $\Tt_{\mu}$, ovvero l'albero aleatorio Galton-Watson con distribuzione di discendenza $\mu$ prima che venga condizionato. 
+Analogamente la distribuzione di $(E_i)_{i\leq 2n-2}$ è quella dei primi $2n-2$ passi di una passeggiata aleatoria semplice $(S_i)_{i\in \mathbb{N}}$ condizionatamente a $T_S=2n-2$.\\
+Per la definizione di probabilità condizionata è sufficiente provare l'equidistribuzione di $(\tilde{h}_i)_{i\leq 2|V|-2}$ e $(S_i)_{i\leq 2|V|-2}$, dove $|V|$ è la v.a. che misura il numero di vertici dell'albero aleatorio di cui $(\tilde{h}_i)$ rappresenta la DFS. Per dimostrare quest'ultima notiamo che, dato $v$ nodo di $\Tt_n$ vale
+$$P\left(\left\{v \text{ ha n figli } \right\} \ | \ \left\{v \text{ ha n-1 figli}\right\} \right)=\frac{1}{2} \quad \forall n \geq 1.$$
+Dunque durante un'iterazione della DFS "saliamo" o "scendiamo"\footnote{Ovvero incrementiamo o decrementiamo di un'unità l'altezza del successivo nodo visitato rispetto all'attuale.} con probabilità $\frac{1}{2}$, ottenendo la stessa probabilità di transizione della passeggiata aleatoria semplice.
+\end{proof}
+
+Il seguente risultato\footnote{Risultato tratto da  W. Gutjahr, G.Ch. Pflug.\textit{The asymptotic contour process of a binary tree is a Brownian excursion.} \cite{condiDonsker}.} è una variante condizionata del principio di invarianza di Donsker ristretto al caso della passeggiata aleatoria semplice.
+
+\begin{teo}\label{teo_srw_2}
+Sia $(E^n)_{n\in \mathbb{N}}$ una succesione di escursioni aleatorie semplici di lunghezza $n$ per $n\in \mathbb{N}$, definiamo
+\begin{equation}
+X_n(t,\omega)=\frac{1-nt+\lfloor nt \rfloor}{\sqrt{n}}E^n_{\lfloor nt \rfloor}(\omega)+\frac{nt - \lfloor nt \rfloor}{\sqrt n}E^n_{ \lfloor nt \rfloor +1 }(\omega) \quad \text{ per } t\in[0,1].
+\end{equation}
+Dunque $\left(X_n\right)$ è una successione di processi continui definiti come la successione delle interpolazioni lineari, riscalate in modo parabolico, dei processi discreti $(E^n)$. Allora vale 
+$$X_n\xrightarrow{d} 2\beta.$$
+\end{teo}
+
+Grazie ai teoremi \ref{teo_srw_1} e \ref{teo_srw_2} otteniamo il seguente:
+\begin{teo}
+Sia $\mu$ la distribuzione del Teorema \ref{teo_srw_1} e $\Tt_{\mu}$ l'albero Galton-Watson avente $\mu$ come distribuzione di discendenza. Sia $\left(\Tt_n\right)$ la famiglia di alberi Galton-Watson condizionati corrispondente. Per ogni $n$ sia $f_n:[0,2n-2]\longrightarrow [0,\infty )$ la funzione contorno di $\Tt_n$. Se consideriamo, per ogni $n\in\mathbb{N}$, l'albero $\Tt_n$ come riscalato di un fattore $n^{-\frac{1}{2}}$ allora le funzioni profilo diventano
+$ n^{-\frac{1}{2}} f_n$. Definiamo $\bar{f}_n:[0,1]\longrightarrow[0,\infty)$ come 
+$$\bar{f}_n\left(\frac{x}{2n-2}\right)=\frac{1}{\sqrt{n}}f_n\left(x\right) \quad \text{ per } x\in[0,2n-2].$$
+
+Allora $\bar{f}_n\xrightarrow{d} 2\beta$.
+
+\end{teo}
+
+Grazie al Teorema \ref{teo_equiv_contour_finiteSampling} abbiamo che, data la successione di permutazioni aleatorie uniformi $\left(V_{n,1}, \, \dots \, ,V_{n,n}\right)$ dei vertici di $\Tt_n$,
+$$r\left(\Tt_n, \left\{V_{n,1}, \, \dots \, ,V_{n,k}\right\}\right)\xrightarrow{d} \Rr(k).$$
+Quindi abbiamo provato che il brownian continuum random tree è  rappresentanto funzionalmente, nel senso del Teorema \ref{teo_funzio_profilo}, dall'escursione browniana.
+Per provare la convergenza delle funzioni profilo nel caso generale, ovvero il Teorema \ref{teo_conv_gener}, è sufficiente quindi provare, grazie al Teorema \ref{teo_equiv_contour_finiteSampling}, la convergenza dei campionamenti aleatori finiti\footnote{La dimostrazione di questo fatto è molto tecnica ed è riportata in \cite{Ald3}.}.
+
+
+
+\begin{thebibliography}{9}
+
+\begin{comment} % ESEMPIO DI COME SCRIVERE LA BIBBLIOGRAFIA by Check.
+\bibitem{Bahouri} 
+H. Bahouri, J.-Y. Chemin, and R. Danchin.
+\textit{Fourier analysis and nonlinear partial differential equations}. 
+Springer, Heidelberg, 2011.
+\end{comment}
+% QUI INIZIA LA BIBBLIOGRAFIA VERA
+
+\bibitem{Ald1} Aldous, D. J. \textit{The continuum random tree. I.} 1991, Ann. Probab. 19, 1-28.
+
+\bibitem{Ald2} Aldous, D. J. \textit{The continuum random tree II: an overview.} 1991, Proc. Durham Symp. Stochastic Analysis 1990, 23-70. Cambridge Univ. Press.
+
+\bibitem{Ald3} Aldous, D. J.  \textit{The Continuum Random Tree III.} 1993, Ann. Probab. 21, 248--289.
+
+\bibitem{Ald_definetti} Aldous, D. J. \textit{Exchangeability and related topics.} 1985, Lecture Notes in Mathematics, vol 1117. Springer, Berlin, Heidelberg.
+
+\bibitem{billing} Patrick Billingsley, \textit{Convergence of Probability Measures.} 1968, Wiley Series in Probability and Statistics.
+
+\bibitem{condiDonsker} W. Gutjahr, G.Ch. Pflug.\textit{The asymptotic contour process of a binary tree is a Brownian excursion.} 1992, Stochastic Processes and their Applications, Page: 69-89.
+ 
+
+
+	
+
+\end{thebibliography}
+
+
+\end{document}
